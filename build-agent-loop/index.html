@@ -58,6 +58,64 @@
     .two-col .box p:last-child { margin: 0; }
     .two-col .box b { color: var(--text); }
     @media (max-width: 720px) { .steps { grid-template-columns: 1fr; } .roles { grid-template-columns: 1fr; } .two-col { grid-template-columns: 1fr; } }
+
+    /* ============ animated loop visual ============ */
+    .loop-viz { --warn: #b45309; margin: 26px 0 6px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 16px 8px; box-shadow: var(--shadow); }
+    :root[data-theme="dark"] .loop-viz { --warn: #f2c078; }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .loop-viz { --warn: #f2c078; } }
+    .loop-viz svg { width: 100%; height: auto; display: block; max-width: 720px; margin: 0 auto; }
+    .loop-cap { text-align: center; color: var(--muted); font-size: .9rem; margin: 8px auto 4px; max-width: 52ch; }
+
+    /* gradient stops (theme-aware) */
+    .grad-a { stop-color: var(--accent); }
+    .grad-b { stop-color: var(--accent-2); }
+    .cg-a { stop-color: var(--accent); stop-opacity: .95; }
+    .cg-b { stop-color: var(--accent); stop-opacity: 0; }
+    .hg-a { stop-color: var(--accent); stop-opacity: .20; }
+    .hg-b { stop-color: var(--accent); stop-opacity: 0; }
+
+    /* track */
+    .ring-halo { fill: none; stroke: var(--accent); stroke-width: 13; opacity: .06; }
+    .ring-track { fill: none; stroke: url(#ringGrad); stroke-width: 2.4; opacity: .35; }
+    .ring-flow { fill: none; stroke: url(#ringGrad); stroke-width: 2.6; stroke-linecap: round; stroke-dasharray: 2 13; animation: dashFlow 2.4s linear infinite; }
+    @keyframes dashFlow { to { stroke-dashoffset: -15; } }
+
+    /* breathing hub */
+    .pulse-ring { fill: none; stroke: var(--accent); stroke-width: 1.4; opacity: 0; transform-origin: 360px 250px; transform-box: view-box; animation: breathe 6s ease-out infinite; }
+    @keyframes breathe { 0% { transform: scale(.30); opacity: .45; } 70% { opacity: 0; } 100% { transform: scale(1.02); opacity: 0; } }
+    .hub-glow { fill: url(#hubGlow); transform-origin: 360px 250px; transform-box: view-box; animation: hubBreath 6s ease-in-out infinite; }
+    @keyframes hubBreath { 0%,100% { opacity: .55; transform: scale(.95); } 50% { opacity: .95; transform: scale(1.05); } }
+    .hub-title { fill: var(--text); font: 700 15px var(--sans); text-anchor: middle; }
+    .hub-sub { fill: var(--muted); font: 11px var(--sans); text-anchor: middle; }
+
+    /* nodes light up as the comet passes */
+    .node { color: var(--muted); transform-box: view-box; animation: nodeGlow 12s ease-in-out infinite; }
+    .node-box { fill: var(--bg-alt); stroke: currentColor; stroke-width: 1.5; }
+    .node-label { fill: currentColor; font: 600 14px var(--sans); text-anchor: middle; }
+    .node-sub { fill: var(--muted); font: 10.5px var(--sans); text-anchor: middle; opacity: .85; }
+    @keyframes nodeGlow {
+      0%   { color: var(--accent); filter: drop-shadow(0 0 9px var(--accent)); transform: scale(1.06); }
+      13%  { color: var(--accent); filter: drop-shadow(0 0 4px var(--accent)); transform: scale(1.03); }
+      32%  { color: var(--muted); filter: none; transform: scale(1); }
+      100% { color: var(--muted); filter: none; transform: scale(1); }
+    }
+
+    /* comet */
+    .comet-core { fill: var(--accent); }
+    .comet-spark { fill: var(--accent); }
+    .chev { fill: none; stroke: var(--accent-2); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; opacity: .5; }
+
+    /* human gate */
+    .gate-link { fill: none; stroke: var(--warn); stroke-width: 1.5; stroke-dasharray: 4 4; opacity: .8; }
+    .gate-box { fill: none; stroke: var(--warn); stroke-width: 1.6; stroke-dasharray: 5 4; }
+    .gate-title { fill: var(--warn); font: 700 11.5px var(--sans); text-anchor: middle; }
+    .gate-sub { fill: var(--warn); font: 10px var(--sans); text-anchor: middle; opacity: .85; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ring-flow, .pulse-ring, .hub-glow, .node { animation: none !important; }
+      .node { color: var(--muted); }
+      .comet-halo, .comet-core, .comet-spark { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -98,9 +156,100 @@
         <div class="dl-row">
           <a class="btn btn-primary" href="build-agent-loop.skill" download>⬇ Download the .skill</a>
           <a class="btn btn-ghost" href="showcase.html">See the 13 use cases →</a>
-          <a class="btn btn-ghost" href="../blog/taught-claude-to-stop-repeating.html">Read the story →</a>
         </div>
         <p class="dl-note">build-agent-loop.skill · ~22&nbsp;KB · installs into your own Claude account</p>
+
+        <div class="loop-viz" role="group" aria-labelledby="loopviz-cap">
+          <svg viewBox="0 0 720 600" xmlns="http://www.w3.org/2000/svg" role="img"
+               aria-label="The loop cycle: Trigger, Context, Action, Verify, State, Decide — repeating around a central run, with a human review gate for anything sensitive.">
+            <defs>
+              <path id="cometPath" d="M 360 85 A 165 165 0 0 1 360 415 A 165 165 0 0 1 360 85"/>
+              <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop class="grad-a" offset="0%"/>
+                <stop class="grad-b" offset="100%"/>
+              </linearGradient>
+              <radialGradient id="cometGlow">
+                <stop class="cg-a" offset="0%"/>
+                <stop class="cg-b" offset="100%"/>
+              </radialGradient>
+              <radialGradient id="hubGlow">
+                <stop class="hg-a" offset="0%"/>
+                <stop class="hg-b" offset="100%"/>
+              </radialGradient>
+            </defs>
+
+            <!-- breathing centre -->
+            <circle class="hub-glow" cx="360" cy="250" r="120"/>
+            <circle class="pulse-ring" cx="360" cy="250" r="150" style="animation-delay:0s"/>
+            <circle class="pulse-ring" cx="360" cy="250" r="150" style="animation-delay:3s"/>
+
+            <!-- orbit track -->
+            <circle class="ring-halo" cx="360" cy="250" r="165"/>
+            <circle class="ring-track" cx="360" cy="250" r="165"/>
+            <circle class="ring-flow" cx="360" cy="250" r="165"/>
+
+            <!-- clockwise direction hints -->
+            <path class="chev" d="M 541 302 l 12 7 l -4 13"/>
+            <path class="chev" d="M 179 198 l -12 -7 l 4 -13"/>
+
+            <!-- travelling comet (core + tail + halo) -->
+            <circle class="comet-halo" r="17" fill="url(#cometGlow)">
+              <animateMotion dur="12s" repeatCount="indefinite"><mpath href="#cometPath"/></animateMotion>
+            </circle>
+            <circle class="comet-spark" r="3" opacity=".4">
+              <animateMotion dur="12s" begin="-0.7s" repeatCount="indefinite"><mpath href="#cometPath"/></animateMotion>
+            </circle>
+            <circle class="comet-spark" r="4" opacity=".65">
+              <animateMotion dur="12s" begin="-0.35s" repeatCount="indefinite"><mpath href="#cometPath"/></animateMotion>
+            </circle>
+            <circle class="comet-core" r="5.5">
+              <animateMotion dur="12s" repeatCount="indefinite"><mpath href="#cometPath"/></animateMotion>
+            </circle>
+
+            <!-- centre hub -->
+            <text class="hub-title" x="360" y="245">One run</text>
+            <text class="hub-sub" x="360" y="266">state carries into the next</text>
+
+            <!-- six beats -->
+            <g class="node" style="animation-delay:-12s;transform-origin:360px 85px;">
+              <rect class="node-box" x="294" y="58" width="132" height="54" rx="11"/>
+              <text class="node-label" x="360" y="82">1 · Trigger</text>
+              <text class="node-sub" x="360" y="99">timer · event · /loop</text>
+            </g>
+            <g class="node" style="animation-delay:-10s;transform-origin:503px 167px;">
+              <rect class="node-box" x="437" y="140" width="132" height="54" rx="11"/>
+              <text class="node-label" x="503" y="164">2 · Context</text>
+              <text class="node-sub" x="503" y="181">TASK + PROGRESS</text>
+            </g>
+            <g class="node" style="animation-delay:-8s;transform-origin:503px 332px;">
+              <rect class="node-box" x="437" y="305" width="132" height="54" rx="11"/>
+              <text class="node-label" x="503" y="329">3 · Action</text>
+              <text class="node-sub" x="503" y="346">bounded · in scope</text>
+            </g>
+            <g class="node" style="animation-delay:-6s;transform-origin:360px 415px;">
+              <rect class="node-box" x="294" y="388" width="132" height="54" rx="11"/>
+              <text class="node-label" x="360" y="412">4 · Verify</text>
+              <text class="node-sub" x="360" y="429">pass / fail checklist</text>
+            </g>
+            <g class="node" style="animation-delay:-4s;transform-origin:217px 332px;">
+              <rect class="node-box" x="151" y="305" width="132" height="54" rx="11"/>
+              <text class="node-label" x="217" y="329">5 · State</text>
+              <text class="node-sub" x="217" y="346">write memory</text>
+            </g>
+            <g class="node" style="animation-delay:-2s;transform-origin:217px 167px;">
+              <rect class="node-box" x="151" y="140" width="132" height="54" rx="11"/>
+              <text class="node-label" x="217" y="164">6 · Decide</text>
+              <text class="node-sub" x="217" y="181">stop · retry · escalate</text>
+            </g>
+
+            <!-- human review gate -->
+            <path class="gate-link" d="M 360 442 V 500"/>
+            <rect class="gate-box" x="240" y="500" width="240" height="58" rx="12"/>
+            <text class="gate-title" x="360" y="524">Human review gate</text>
+            <text class="gate-sub" x="360" y="542">anything sensitive or irreversible</text>
+          </svg>
+          <p class="loop-cap" id="loopviz-cap">Every run is one turn of the same six-beat cycle — and what it learns carries into the next.</p>
+        </div>
       </div>
     </section>
 

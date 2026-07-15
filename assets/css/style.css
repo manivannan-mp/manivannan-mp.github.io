@@ -225,6 +225,12 @@ a { color: inherit; text-decoration: none; }
 .post-item time { font-family: var(--mono); font-size: 12.5px; color: var(--muted); }
 .post-item h3 { margin: 6px 0 8px; font-size: 1.15rem; }
 .post-item p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+.writing-soon {
+  background: var(--surface); border: 1px dashed var(--border);
+  border-radius: var(--radius); padding: 26px 28px; max-width: 62ch;
+}
+.writing-soon p { margin: 0; color: var(--muted); font-size: 1rem; }
+.writing-soon strong { color: var(--text); }
 
 /* Contact */
 .contact-lede { color: var(--muted); font-size: 1.08rem; max-width: 52ch; margin: 0 0 28px; }
