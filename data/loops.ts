@@ -1,152 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Agent Loops — 13 Role-Based Use Cases · Build Agent Loop</title>
-  <meta name="description" content="13 role-based agent-loop patterns for the Build Agent Loop Claude skill — each with a trigger, a bounded action, a verification rule, and a ready-to-copy quick-start prompt. Draft-first by default." />
+export type Loop = {
+  role: string;
+  title: string;
+  trigger: string;
+  action: string;
+  output: string;
+  verify: string;
+  perm: string;
+  prompt: string;
+};
 
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Agent Loops — 13 Role-Based Use Cases" />
-  <meta property="og:description" content="13 role-based agent-loop patterns with ready-to-copy quick-start prompts. Draft-first by default." />
-  <meta property="og:url" content="https://manivannan-mp.github.io/build-agent-loop/showcase.html" />
-  <meta name="twitter:card" content="summary" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../assets/css/style.css" />
-  <link rel="stylesheet" href="../assets/css/post.css" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%A1%3C/text%3E%3C/svg%3E" />
-  <script>document.documentElement.classList.add('js');</script>
-  <style>
-    /* ---- page-scoped warn accent that works in light + dark ---- */
-    .showcase { --warn: #b45309; --warn-soft: rgba(180, 83, 9, 0.10); }
-    :root[data-theme="dark"] .showcase { --warn: #f2c078; --warn-soft: rgba(242, 192, 120, 0.12); }
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme="light"]) .showcase { --warn: #f2c078; --warn-soft: rgba(242, 192, 120, 0.12); }
-    }
-
-    .showcase-hero { padding: 56px 0 12px; }
-    .showcase-hero h1 { font-size: clamp(1.9rem, 4.5vw, 2.9rem); line-height: 1.12; margin: 16px 0 14px; letter-spacing: -0.02em; font-weight: 800; }
-    .showcase-hero .lede { font-size: clamp(1.02rem, 2vw, 1.18rem); color: var(--muted); max-width: 64ch; margin: 0; }
-    .showcase-hero .lede strong { color: var(--accent); font-weight: 600; }
-
-    .sub-head { display: flex; align-items: baseline; gap: 14px; margin: 52px 0 18px; }
-    .sub-head h2 { font-size: clamp(1.4rem, 3vw, 1.9rem); margin: 0; letter-spacing: -0.02em; font-weight: 800; }
-    .sub-head .n { font-family: var(--mono); font-size: 14px; color: var(--accent); font-weight: 500; }
-    .lead-two { color: var(--muted); max-width: 70ch; margin: 0 0 20px; font-size: 1.02rem; }
-
-    /* ---- cards ---- */
-    .loop-grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); }
-    .loop-card {
-      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
-      padding: 20px 20px 18px; display: flex; flex-direction: column;
-      transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
-    }
-    .loop-card:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); transform: translateY(-3px); box-shadow: var(--shadow); }
-    .loop-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
-    .loop-role { font-size: .72rem; letter-spacing: .09em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
-    .loop-title { font-size: 1.05rem; font-weight: 700; margin: 5px 0 14px; }
-    .perm {
-      flex: none; font-size: .68rem; font-weight: 700; letter-spacing: .04em;
-      border: 1px solid color-mix(in srgb, var(--warn) 30%, var(--border)); border-radius: 999px; padding: 3px 10px;
-      color: var(--warn); background: var(--warn-soft); white-space: nowrap;
-    }
-    dl { margin: 0 0 14px; display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; font-size: .87rem; }
-    dt { color: var(--muted); font-weight: 600; }
-    dd { margin: 0; color: var(--text); }
-    dd.verify { color: var(--warn); }
-    .prompt-wrap { margin-top: auto; border-top: 1px solid var(--border); padding-top: 12px; }
-    .prompt-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-    .prompt-head span { font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
-    button.copy {
-      background: var(--accent-soft); color: var(--accent); border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
-      border-radius: 8px; padding: 4px 12px; font: inherit; font-size: .75rem; font-weight: 600; cursor: pointer;
-      transition: border-color .18s, background .18s, color .18s;
-    }
-    button.copy:hover { border-color: var(--accent); }
-    button.copy.done { color: #fff; background: var(--accent); border-color: var(--accent); }
-    .loop-card pre {
-      margin: 0; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 10px;
-      padding: 12px 13px; font-family: var(--mono); font-size: 12px; line-height: 1.55;
-      color: var(--text); white-space: pre-wrap; word-break: break-word; max-height: 160px; overflow: auto;
-    }
-    .callout {
-      margin-top: 8px; background: var(--surface); border: 1px solid var(--border);
-      border-left: 3px solid var(--warn); border-radius: var(--radius); padding: 20px 22px;
-      color: var(--muted); font-size: .95rem;
-    }
-    .callout b { color: var(--text); }
-    @media (max-width: 560px) { .loop-grid { grid-template-columns: 1fr; } }
-  </style>
-</head>
-<body class="showcase">
-  <a href="#main" class="skip-link">Skip to content</a>
-
-  <header class="nav">
-    <div class="wrap nav-inner">
-      <a href="../" class="brand">
-        <span class="brand-mark">MM</span>
-        <span class="brand-name">ManiVannan</span>
-      </a>
-      <nav class="nav-links" aria-label="Primary">
-        <a href="index.html">Build Agent Loop</a>
-        <a href="../blog/">Writing</a>
-        <a href="../#projects">Projects</a>
-        <a href="../#contact">Contact</a>
-      </nav>
-      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle color theme">
-        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      </button>
-    </div>
-  </header>
-
-  <main id="main">
-    <section class="showcase-hero">
-      <div class="wrap reveal">
-        <p class="eyebrow">Build Agent Loop · 13 use cases</p>
-        <h1>Agent Loops: 13 Role-Based Use Cases</h1>
-        <p class="lede">
-          Thirteen ready-to-copy loop patterns — one per role — each with a <strong>trigger</strong>, a
-          <strong>bounded action</strong>, a <strong>verification rule</strong>, and a starter prompt you can paste
-          straight into Claude. Every one starts <strong>read-only or draft-only</strong>, so the human keeps the
-          click that matters.
-        </p>
-        <p class="lede" style="margin-top:14px;font-size:1rem;">
-          New here? Start with <a class="link" href="index.html">what a loop is and how it works →</a>
-        </p>
-      </div>
-    </section>
-
-    <section class="section" style="padding: 28px 0 0;">
-      <div class="wrap">
-        <div class="sub-head reveal"><span class="n">01</span><h2>Pick your loop</h2></div>
-        <p class="lead-two reveal">Each card below is a starting template: a role, its trigger, the one bounded action, the rule that verifies the run, and a copy-paste prompt. Want the concepts behind them — the loop cycle, the four building blocks, the three roles, and the memory that compounds? Those live on the <a class="link" href="index.html">Build Agent Loop overview</a>.</p>
-        <div class="loop-grid reveal" id="grid"></div>
-
-        <div class="callout reveal">
-          <b>Before you schedule anything:</b> qualify the task (it repeats on a real cadence, success is objectively
-          checkable, and future runs benefit from memory), then run the loop by hand 3–5 times and watch what it touches.
-          These are starting templates, not proof a loop is ready to run unsupervised. Keep the permission level low,
-          prefer draft-not-act, and never hand a loop unsupervised authority over money, contracts, grades, live
-          production systems, or messages sent on your behalf.
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="wrap footer-inner">
-      <p>© <span id="year">2026</span> ManiVannan Murugesan · Built with care in Finland 🇫🇮</p>
-      <a href="index.html" class="to-top">← Build Agent Loop</a>
-    </div>
-  </footer>
-
-  <script src="../assets/js/main.js"></script>
-  <script>
-    const LOOPS = [
+// The 13 role-based agent-loop patterns. Rendered server-side on the
+// showcase page (was a client-side document.createElement grid before).
+export const LOOPS: Loop[] = [
       {
         role: "Software Engineer",
         title: "CI Failure Triage Loop",
@@ -278,52 +143,3 @@
         prompt: "Set up a weekly student progress loop. On each run, review the assignment and quiz results in this workspace, identify students who are falling behind or excelling relative to the previous run, and draft a short, factual progress note per student, update its memory (PROGRESS.md + MEMORY.md), then run the verification checklist. Never change a grade, edit the gradebook, or contact a student or guardian — drafts for me to review and send. Treat all student data as sensitive and keep it inside this workspace. Permission level 1, manual runs first."
       }
     ];
-
-    const grid = document.getElementById("grid");
-
-    LOOPS.forEach((l, i) => {
-      const card = document.createElement("article");
-      card.className = "loop-card";
-      card.innerHTML = `
-        <div class="loop-top">
-          <div>
-            <div class="loop-role">${i + 1} · ${l.role}</div>
-            <div class="loop-title">${l.title}</div>
-          </div>
-          <div class="perm">${l.perm}</div>
-        </div>
-        <dl>
-          <dt>Trigger</dt><dd>${l.trigger}</dd>
-          <dt>Action</dt><dd>${l.action}</dd>
-          <dt>Output</dt><dd>${l.output}</dd>
-          <dt>Verify</dt><dd class="verify">${l.verify}</dd>
-        </dl>
-        <div class="prompt-wrap">
-          <div class="prompt-head">
-            <span>Quick-start prompt</span>
-            <button class="copy" type="button">Copy</button>
-          </div>
-          <pre></pre>
-        </div>`;
-      card.querySelector("pre").textContent = l.prompt;
-      const btn = card.querySelector("button.copy");
-      btn.addEventListener("click", async () => {
-        try {
-          await navigator.clipboard.writeText(l.prompt);
-        } catch (e) {
-          const r = document.createRange();
-          r.selectNodeContents(card.querySelector("pre"));
-          const s = window.getSelection();
-          s.removeAllRanges(); s.addRange(r);
-          document.execCommand("copy");
-          s.removeAllRanges();
-        }
-        btn.textContent = "Copied";
-        btn.classList.add("done");
-        setTimeout(() => { btn.textContent = "Copy"; btn.classList.remove("done"); }, 1600);
-      });
-      grid.appendChild(card);
-    });
-  </script>
-</body>
-</html>

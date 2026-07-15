@@ -1,0 +1,60 @@
+    /* ---- page-scoped warn accent that works in light + dark ---- */
+    .showcase { --warn: #b45309; --warn-soft: rgba(180, 83, 9, 0.10); }
+    :root[data-theme="dark"] .showcase { --warn: #f2c078; --warn-soft: rgba(242, 192, 120, 0.12); }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .showcase { --warn: #f2c078; --warn-soft: rgba(242, 192, 120, 0.12); }
+    }
+
+    .showcase-hero { padding: 56px 0 12px; }
+    .showcase-hero h1 { font-size: clamp(1.9rem, 4.5vw, 2.9rem); line-height: 1.12; margin: 16px 0 14px; letter-spacing: -0.02em; font-weight: 800; }
+    .showcase-hero .lede { font-size: clamp(1.02rem, 2vw, 1.18rem); color: var(--muted); max-width: 64ch; margin: 0; }
+    .showcase-hero .lede strong { color: var(--accent); font-weight: 600; }
+
+    .sub-head { display: flex; align-items: baseline; gap: 14px; margin: 52px 0 18px; }
+    .sub-head h2 { font-size: clamp(1.4rem, 3vw, 1.9rem); margin: 0; letter-spacing: -0.02em; font-weight: 800; }
+    .sub-head .n { font-family: var(--mono); font-size: 14px; color: var(--accent); font-weight: 500; }
+    .lead-two { color: var(--muted); max-width: 70ch; margin: 0 0 20px; font-size: 1.02rem; }
+
+    /* ---- cards ---- */
+    .loop-grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); }
+    .loop-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 20px 20px 18px; display: flex; flex-direction: column;
+      transition: border-color .18s ease, transform .18s ease, box-shadow .18s ease;
+    }
+    .loop-card:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); transform: translateY(-3px); box-shadow: var(--shadow); }
+    .loop-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+    .loop-role { font-size: .72rem; letter-spacing: .09em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+    .loop-title { font-size: 1.05rem; font-weight: 700; margin: 5px 0 14px; }
+    .perm {
+      flex: none; font-size: .68rem; font-weight: 700; letter-spacing: .04em;
+      border: 1px solid color-mix(in srgb, var(--warn) 30%, var(--border)); border-radius: 999px; padding: 3px 10px;
+      color: var(--warn); background: var(--warn-soft); white-space: nowrap;
+    }
+    dl { margin: 0 0 14px; display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; font-size: .87rem; }
+    dt { color: var(--muted); font-weight: 600; }
+    dd { margin: 0; color: var(--text); }
+    dd.verify { color: var(--warn); }
+    .prompt-wrap { margin-top: auto; border-top: 1px solid var(--border); padding-top: 12px; }
+    .prompt-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .prompt-head span { font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+    button.copy {
+      background: var(--accent-soft); color: var(--accent); border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+      border-radius: 8px; padding: 4px 12px; font: inherit; font-size: .75rem; font-weight: 600; cursor: pointer;
+      transition: border-color .18s, background .18s, color .18s;
+    }
+    button.copy:hover { border-color: var(--accent); }
+    button.copy.done { color: #fff; background: var(--accent); border-color: var(--accent); }
+    .loop-card pre {
+      margin: 0; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 10px;
+      padding: 12px 13px; font-family: var(--mono); font-size: 12px; line-height: 1.55;
+      color: var(--text); white-space: pre-wrap; word-break: break-word; max-height: 160px; overflow: auto;
+    }
+    .callout {
+      margin-top: 8px; background: var(--surface); border: 1px solid var(--border);
+      border-left: 3px solid var(--warn); border-radius: var(--radius); padding: 20px 22px;
+      color: var(--muted); font-size: .95rem;
+    }
+    .callout b { color: var(--text); }
+    @media (max-width: 560px) { .loop-grid { grid-template-columns: 1fr; } }
+  
