@@ -35,66 +35,7 @@
     .sub-head { display: flex; align-items: baseline; gap: 14px; margin: 52px 0 18px; }
     .sub-head h2 { font-size: clamp(1.4rem, 3vw, 1.9rem); margin: 0; letter-spacing: -0.02em; font-weight: 800; }
     .sub-head .n { font-family: var(--mono); font-size: 14px; color: var(--accent); font-weight: 500; }
-
-    /* ---- loop diagram ---- */
-    .diagram {
-      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
-      padding: 18px; box-shadow: var(--shadow);
-    }
-    .diagram svg { width: 100%; height: auto; display: block; }
-    .node-box { fill: var(--bg-alt); stroke: var(--border); stroke-width: 1.5; animation: nodePulse 9s linear infinite; }
-    .node-label { fill: var(--text); font-size: 14px; font-weight: 600; text-anchor: middle; font-family: var(--sans); }
-    .node-sub { fill: var(--muted); font-size: 10.5px; text-anchor: middle; font-family: var(--sans); }
-    .ring { fill: none; stroke: var(--border); stroke-width: 2; stroke-dasharray: 6 7; }
-    .ring-spin { transform-origin: 400px 235px; animation: spin 30s linear infinite; }
-    .pulse { fill: var(--accent); }
-    .glow-start { stop-color: var(--accent); stop-opacity: 1; }
-    .glow-end { stop-color: var(--accent); stop-opacity: 0; }
-    .human-gate { fill: none; stroke: var(--warn); stroke-width: 1.6; stroke-dasharray: 4 4; }
-    .gate-label { fill: var(--warn); font-size: 11px; text-anchor: middle; font-family: var(--sans); }
-    .arrow { stroke: var(--accent-2); stroke-width: 1.8; fill: none; opacity: .55; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    @keyframes nodePulse {
-      0%   { stroke: var(--border); }
-      7%   { stroke: var(--accent); }
-      16%  { stroke: var(--border); }
-      100% { stroke: var(--border); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .ring-spin, .node-box { animation: none; }
-      .pulse animateMotion { animation: none; }
-    }
-
-    /* ---- concept blocks ---- */
     .lead-two { color: var(--muted); max-width: 70ch; margin: 0 0 20px; font-size: 1.02rem; }
-    .parts { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(232px, 1fr)); }
-    .part { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 18px 16px; position: relative; transition: border-color .18s ease, transform .18s ease; }
-    .part:hover { border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); transform: translateY(-2px); }
-    .part .k { font-family: var(--mono); font-size: 12px; color: var(--accent); font-weight: 700; }
-    .part h3 { margin: 8px 0 6px; font-size: 1.02rem; }
-    .part p { margin: 0; color: var(--muted); font-size: .9rem; }
-    .part.skip { border-color: color-mix(in srgb, var(--warn) 45%, var(--border)); }
-    .part.skip .k { color: var(--warn); }
-    .part .tag { position: absolute; top: 14px; right: 14px; font-size: .6rem; letter-spacing: .06em; text-transform: uppercase; color: var(--warn); background: var(--warn-soft); border: 1px solid color-mix(in srgb, var(--warn) 35%, var(--border)); border-radius: 999px; padding: 2px 8px; font-weight: 700; }
-    .roles { display: grid; gap: 16px; grid-template-columns: repeat(3, 1fr); }
-    .role-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; }
-    .role-card .rk { font-family: var(--mono); font-size: 12px; color: var(--accent-2); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
-    .role-card h3 { margin: 8px 0 6px; font-size: 1.02rem; }
-    .role-card p { margin: 0; color: var(--muted); font-size: .9rem; }
-    .role-flow { text-align: center; font-family: var(--mono); font-size: .8rem; color: var(--muted); margin: 14px 0 0; }
-    .role-flow b { color: var(--accent); }
-    .mem { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
-    .mem .m { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; }
-    .mem .m .mf { font-family: var(--mono); font-size: 12.5px; color: var(--accent); font-weight: 700; }
-    .mem .m h3 { margin: 7px 0 6px; font-size: 1rem; }
-    .mem .m p { margin: 0; color: var(--muted); font-size: .9rem; }
-    .evolve { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
-    .evolve .box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
-    .evolve .box h3 { margin: 0 0 8px; font-size: 1.05rem; }
-    .evolve .box p { margin: 0 0 10px; color: var(--muted); font-size: .92rem; }
-    .evolve .box p:last-child { margin: 0; }
-    .evolve .box b { color: var(--text); }
-    @media (max-width: 640px) { .roles { grid-template-columns: 1fr; } .mem { grid-template-columns: 1fr; } .evolve { grid-template-columns: 1fr; } }
 
     /* ---- cards ---- */
     .loop-grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); }
@@ -168,200 +109,21 @@
         <p class="eyebrow">Build Agent Loop · 13 use cases</p>
         <h1>Agent Loops: 13 Role-Based Use Cases</h1>
         <p class="lede">
-          A loop is a repeatable workflow wrapped around Claude: something triggers a run, Claude reads the
-          <strong>memory of prior runs</strong>, takes a <strong>constrained</strong> action, checks its own output,
-          saves what it learned, and decides whether to stop, retry, or escalate to a human. The durable spine of
-          memory + contract is what turns re-typing a prompt into a loop that compounds. Every loop below starts
-          <strong>read-only or draft-only</strong> — the human keeps the click that matters.
+          Thirteen ready-to-copy loop patterns — one per role — each with a <strong>trigger</strong>, a
+          <strong>bounded action</strong>, a <strong>verification rule</strong>, and a starter prompt you can paste
+          straight into Claude. Every one starts <strong>read-only or draft-only</strong>, so the human keeps the
+          click that matters.
+        </p>
+        <p class="lede" style="margin-top:14px;font-size:1rem;">
+          New here? Start with <a class="link" href="index.html">what a loop is and how it works →</a>
         </p>
       </div>
     </section>
 
     <section class="section" style="padding: 28px 0 0;">
       <div class="wrap">
-        <div class="sub-head reveal"><span class="n">01</span><h2>The loop cycle</h2></div>
-        <div class="diagram reveal">
-          <svg viewBox="0 0 800 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Animated diagram of the loop cycle: Trigger, Context, Action, Verify, State, Decide">
-            <defs>
-              <path id="cycle" d="M 400 85 A 150 150 0 0 1 400 385 A 150 150 0 0 1 400 85"/>
-              <radialGradient id="glow">
-                <stop class="glow-start" offset="0%"/>
-                <stop class="glow-end" offset="100%"/>
-              </radialGradient>
-            </defs>
-
-            <!-- rotating dashed ring -->
-            <circle class="ring ring-spin" cx="400" cy="235" r="150"/>
-            <!-- direction arrows on the ring -->
-            <path class="arrow" d="M 545 200 l 10 12 l 12 -9" />
-            <path class="arrow" d="M 250 270 l -10 -12 l -12 9" />
-
-            <!-- travelling pulse -->
-            <circle r="16" fill="url(#glow)">
-              <animateMotion dur="9s" repeatCount="indefinite" rotate="auto">
-                <mpath href="#cycle"/>
-              </animateMotion>
-            </circle>
-            <circle class="pulse" r="5">
-              <animateMotion dur="9s" repeatCount="indefinite">
-                <mpath href="#cycle"/>
-              </animateMotion>
-            </circle>
-
-            <!-- centre -->
-            <text x="400" y="228" class="node-label" style="font-size:15px;">One run</text>
-            <text x="400" y="248" class="node-sub">state carries into the next</text>
-
-            <!-- 1. TRIGGER (top) -->
-            <g>
-              <rect class="node-box" x="330" y="55" width="140" height="56" rx="10" style="animation-delay:0s;"/>
-              <text x="400" y="80" class="node-label">1 · Trigger</text>
-              <text x="400" y="97" class="node-sub">timer, event, /loop</text>
-            </g>
-
-            <!-- 2. CONTEXT (upper right) -->
-            <g>
-              <rect class="node-box" x="565" y="140" width="140" height="56" rx="10" style="animation-delay:1.5s;"/>
-              <text x="635" y="165" class="node-label">2 · Context</text>
-              <text x="635" y="182" class="node-sub">TASK + PROGRESS</text>
-            </g>
-
-            <!-- 3. ACTION (lower right) -->
-            <g>
-              <rect class="node-box" x="565" y="275" width="140" height="56" rx="10" style="animation-delay:3s;"/>
-              <text x="635" y="300" class="node-label">3 · Action</text>
-              <text x="635" y="317" class="node-sub">constrained, in scope</text>
-            </g>
-
-            <!-- 4. VERIFY (bottom) -->
-            <g>
-              <rect class="node-box" x="330" y="360" width="140" height="56" rx="10" style="animation-delay:4.5s;"/>
-              <text x="400" y="385" class="node-label">4 · Verify</text>
-              <text x="400" y="402" class="node-sub">pass/fail checklist</text>
-            </g>
-
-            <!-- 5. STATE (lower left) -->
-            <g>
-              <rect class="node-box" x="95" y="275" width="140" height="56" rx="10" style="animation-delay:6s;"/>
-              <text x="165" y="300" class="node-label">5 · State</text>
-              <text x="165" y="317" class="node-sub">write PROGRESS.md</text>
-            </g>
-
-            <!-- 6. DECIDE (upper left) -->
-            <g>
-              <rect class="node-box" x="95" y="140" width="140" height="56" rx="10" style="animation-delay:7.5s;"/>
-              <text x="165" y="165" class="node-label">6 · Decide</text>
-              <text x="165" y="182" class="node-sub">stop · retry · escalate</text>
-            </g>
-
-            <!-- human gate -->
-            <g>
-              <rect class="human-gate" x="600" y="392" width="185" height="52" rx="10"/>
-              <text x="692" y="413" class="gate-label" style="font-weight:700;">Human review gate</text>
-              <text x="692" y="431" class="gate-label">anything sensitive or irreversible</text>
-              <path class="human-gate" d="M 470 388 H 600" />
-            </g>
-          </svg>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" style="padding: 8px 0 0;">
-      <div class="wrap">
-        <div class="sub-head reveal"><span class="n">02</span><h2>The four building blocks of a durable loop</h2></div>
-        <p class="lead-two reveal">The prompt itself is maybe 5% of the work. The rest is the structure that makes it safe to leave the loop running. Every durable loop has the same four building blocks — and most people build 1 and 4 and skip 2 and 3, the two that actually let it run unattended.</p>
-        <div class="parts reveal">
-          <div class="part">
-            <div class="k">01 · Contract</div>
-            <h3>TASK.md</h3>
-            <p>One file the agent re-reads every run: the goal, the boundary fence (ship on its own vs. route to a human), and the steps. That fence is what makes it safe to leave a run unattended.</p>
-          </div>
-          <div class="part skip">
-            <div class="tag">Most skip</div>
-            <div class="k">02 · State + logs</div>
-            <h3>PROGRESS.md + MEMORY.md</h3>
-            <p>Durable memory across runs — working hypotheses, "skip / known-noise" lists, a dated log — so it never re-solves solved work. Run fifty ends up sharper than run five.</p>
-          </div>
-          <div class="part skip">
-            <div class="tag">Most skip</div>
-            <div class="k">03 · Verifier</div>
-            <h3>proof → PR</h3>
-            <p>The loop runs fail → fix → work → verify until it can point to something a person checks at a glance — a passing test, an exact count, a screenshot. No evidence, run's not finished.</p>
-          </div>
-          <div class="part">
-            <div class="k">04 · Trigger</div>
-            <h3>lightest that fits</h3>
-            <p>A push toward a goal, a cron schedule, or an event gate — so runs that find nothing cost almost nothing. A tight timer that usually finds nothing is the expensive option.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" style="padding: 8px 0 0;">
-      <div class="wrap">
-        <div class="sub-head reveal"><span class="n">03</span><h2>Divide the work across three roles</h2></div>
-        <p class="lead-two reveal">A simple loop is one agent doing the whole job. Once it starts shipping real work to real people it splits: one agent picks the work, one carries it out in an isolated lane, one proves it. You sign off on <strong>proof, not raw diffs</strong>.</p>
-        <div class="roles reveal">
-          <div class="role-card">
-            <div class="rk">Pick</div>
-            <h3>Orchestrator</h3>
-            <p>Wakes on the trigger and picks the task: reads what changed — errors, inbox, metrics, PRs — chooses the single most worthwhile thing this run, and hands it off. It doesn't carry out the work itself.</p>
-          </div>
-          <div class="role-card">
-            <div class="rk">Do</div>
-            <h3>Executor</h3>
-            <p>Carries out the work in an isolated box — its own git worktree per task — so parallel tasks never collide with your working tree or each other. It can loop fail → fix, but can't call it done.</p>
-          </div>
-          <div class="role-card">
-            <div class="rk">Prove</div>
-            <h3>Verifier</h3>
-            <p>Independently proves each result and attaches the evidence — a screenshot, a video, a fact-check, a passing test. That proof is what reaches you for sign-off, in seconds.</p>
-          </div>
-        </div>
-        <p class="role-flow reveal"><b>Orchestrator</b> picks → <b>Executor</b> carries it out in a lane → <b>Verifier</b> proves it → you sign off on the evidence → repeat</p>
-      </div>
-    </section>
-
-    <section class="section" style="padding: 8px 0 0;">
-      <div class="wrap">
-        <div class="sub-head reveal"><span class="n">04</span><h2>Carry the memory forward</h2></div>
-        <p class="lead-two reveal">A loop that forgets is just a prompt you retype. Two files hold the memory — every run reads both before acting and writes both before stopping. This is the one thing that separates a loop from a re-run.</p>
-        <div class="mem reveal">
-          <div class="m">
-            <div class="mf">PROGRESS.md</div>
-            <h3>Short-term working memory</h3>
-            <p>Current status, last-run summary, open items, blockers, what the next run should do, and a "do not repeat" list. Kept compact.</p>
-          </div>
-          <div class="m">
-            <div class="mf">MEMORY.md</div>
-            <h3>Long-term distilled memory</h3>
-            <p>Durable decisions and why, cached facts (IDs, thresholds, gotchas), reusable snippets, and the evolution log. The asset that makes each run cheaper than the last.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" style="padding: 8px 0 0;">
-      <div class="wrap">
-        <div class="sub-head reveal"><span class="n">05</span><h2>Improve the loop, or it never gets past day one</h2></div>
-        <div class="evolve reveal">
-          <div class="box">
-            <h3>A periodic pass that rewrites the loop itself</h3>
-            <p>A brittle setup falls over the first time a run goes wrong; a sturdy one shrugs it off; what you want is a loop that gets <b>stronger</b> because of it. An evolve pass reviews the recent runs and asks what wasted compute, which limit is too loose, and what mistake keeps recurring.</p>
-            <p>Its output isn't product work — it's edits to the loop: a tighter contract, a lighter trigger, mechanical steps folded into scripts and skills. The loop tuning itself. It's verified like any run and may only <b>tighten</b> scope — loosening always needs a human.</p>
-          </div>
-          <div class="box">
-            <h3>Each run sets up a cheaper, sharper next one</h3>
-            <p>You feel it in two places: the cost and the quality. Each pass folds what the loop learned into scripts and a tighter contract, so the next run reasons less, misses less, and costs less.</p>
-            <p>It <b>starts fully agent-driven</b>, learns the pattern, then the now-certain part <b>hardens into a cheap script</b> — and the model only steps back in when a guard condition fires or something genuinely unexpected shows up.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" style="padding: 8px 0 0;">
-      <div class="wrap">
-        <div class="sub-head reveal"><span class="n">06</span><h2>Pick your loop</h2></div>
+        <div class="sub-head reveal"><span class="n">01</span><h2>Pick your loop</h2></div>
+        <p class="lead-two reveal">Each card below is a starting template: a role, its trigger, the one bounded action, the rule that verifies the run, and a copy-paste prompt. Want the concepts behind them — the loop cycle, the four building blocks, the three roles, and the memory that compounds? Those live on the <a class="link" href="index.html">Build Agent Loop overview</a>.</p>
         <div class="loop-grid reveal" id="grid"></div>
 
         <div class="callout reveal">
