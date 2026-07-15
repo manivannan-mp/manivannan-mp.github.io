@@ -65,6 +65,37 @@
       .pulse animateMotion { animation: none; }
     }
 
+    /* ---- concept blocks ---- */
+    .lead-two { color: var(--muted); max-width: 70ch; margin: 0 0 20px; font-size: 1.02rem; }
+    .parts { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(232px, 1fr)); }
+    .part { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 18px 16px; position: relative; transition: border-color .18s ease, transform .18s ease; }
+    .part:hover { border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); transform: translateY(-2px); }
+    .part .k { font-family: var(--mono); font-size: 12px; color: var(--accent); font-weight: 700; }
+    .part h3 { margin: 8px 0 6px; font-size: 1.02rem; }
+    .part p { margin: 0; color: var(--muted); font-size: .9rem; }
+    .part.skip { border-color: color-mix(in srgb, var(--warn) 45%, var(--border)); }
+    .part.skip .k { color: var(--warn); }
+    .part .tag { position: absolute; top: 14px; right: 14px; font-size: .6rem; letter-spacing: .06em; text-transform: uppercase; color: var(--warn); background: var(--warn-soft); border: 1px solid color-mix(in srgb, var(--warn) 35%, var(--border)); border-radius: 999px; padding: 2px 8px; font-weight: 700; }
+    .roles { display: grid; gap: 16px; grid-template-columns: repeat(3, 1fr); }
+    .role-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; }
+    .role-card .rk { font-family: var(--mono); font-size: 12px; color: var(--accent-2); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+    .role-card h3 { margin: 8px 0 6px; font-size: 1.02rem; }
+    .role-card p { margin: 0; color: var(--muted); font-size: .9rem; }
+    .role-flow { text-align: center; font-family: var(--mono); font-size: .8rem; color: var(--muted); margin: 14px 0 0; }
+    .role-flow b { color: var(--accent); }
+    .mem { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
+    .mem .m { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; }
+    .mem .m .mf { font-family: var(--mono); font-size: 12.5px; color: var(--accent); font-weight: 700; }
+    .mem .m h3 { margin: 7px 0 6px; font-size: 1rem; }
+    .mem .m p { margin: 0; color: var(--muted); font-size: .9rem; }
+    .evolve { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
+    .evolve .box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+    .evolve .box h3 { margin: 0 0 8px; font-size: 1.05rem; }
+    .evolve .box p { margin: 0 0 10px; color: var(--muted); font-size: .92rem; }
+    .evolve .box p:last-child { margin: 0; }
+    .evolve .box b { color: var(--text); }
+    @media (max-width: 640px) { .roles { grid-template-columns: 1fr; } .mem { grid-template-columns: 1fr; } .evolve { grid-template-columns: 1fr; } }
+
     /* ---- cards ---- */
     .loop-grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); }
     .loop-card {
@@ -137,10 +168,11 @@
         <p class="eyebrow">Build Agent Loop · 13 use cases</p>
         <h1>Agent Loops: 13 Role-Based Use Cases</h1>
         <p class="lede">
-          A loop is a repeatable workflow wrapped around Claude: something triggers a run, Claude reads context,
-          takes a <strong>constrained</strong> action, checks its own output, saves state, and decides whether to stop,
-          retry, or escalate to a human. Every loop below starts <strong>read-only or draft-only</strong> — the human
-          keeps the click that matters.
+          A loop is a repeatable workflow wrapped around Claude: something triggers a run, Claude reads the
+          <strong>memory of prior runs</strong>, takes a <strong>constrained</strong> action, checks its own output,
+          saves what it learned, and decides whether to stop, retry, or escalate to a human. The durable spine of
+          memory + contract is what turns re-typing a prompt into a loop that compounds. Every loop below starts
+          <strong>read-only or draft-only</strong> — the human keeps the click that matters.
         </p>
       </div>
     </section>
@@ -236,7 +268,100 @@
 
     <section class="section" style="padding: 8px 0 0;">
       <div class="wrap">
-        <div class="sub-head reveal"><span class="n">02</span><h2>Pick your loop</h2></div>
+        <div class="sub-head reveal"><span class="n">02</span><h2>The four building blocks of a durable loop</h2></div>
+        <p class="lead-two reveal">The prompt itself is maybe 5% of the work. The rest is the structure that makes it safe to leave the loop running. Every durable loop has the same four building blocks — and most people build 1 and 4 and skip 2 and 3, the two that actually let it run unattended.</p>
+        <div class="parts reveal">
+          <div class="part">
+            <div class="k">01 · Contract</div>
+            <h3>TASK.md</h3>
+            <p>One file the agent re-reads every run: the goal, the boundary fence (ship on its own vs. route to a human), and the steps. That fence is what makes it safe to leave a run unattended.</p>
+          </div>
+          <div class="part skip">
+            <div class="tag">Most skip</div>
+            <div class="k">02 · State + logs</div>
+            <h3>PROGRESS.md + MEMORY.md</h3>
+            <p>Durable memory across runs — working hypotheses, "skip / known-noise" lists, a dated log — so it never re-solves solved work. Run fifty ends up sharper than run five.</p>
+          </div>
+          <div class="part skip">
+            <div class="tag">Most skip</div>
+            <div class="k">03 · Verifier</div>
+            <h3>proof → PR</h3>
+            <p>The loop runs fail → fix → work → verify until it can point to something a person checks at a glance — a passing test, an exact count, a screenshot. No evidence, run's not finished.</p>
+          </div>
+          <div class="part">
+            <div class="k">04 · Trigger</div>
+            <h3>lightest that fits</h3>
+            <p>A push toward a goal, a cron schedule, or an event gate — so runs that find nothing cost almost nothing. A tight timer that usually finds nothing is the expensive option.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding: 8px 0 0;">
+      <div class="wrap">
+        <div class="sub-head reveal"><span class="n">03</span><h2>Divide the work across three roles</h2></div>
+        <p class="lead-two reveal">A simple loop is one agent doing the whole job. Once it starts shipping real work to real people it splits: one agent picks the work, one carries it out in an isolated lane, one proves it. You sign off on <strong>proof, not raw diffs</strong>.</p>
+        <div class="roles reveal">
+          <div class="role-card">
+            <div class="rk">Pick</div>
+            <h3>Orchestrator</h3>
+            <p>Wakes on the trigger and picks the task: reads what changed — errors, inbox, metrics, PRs — chooses the single most worthwhile thing this run, and hands it off. It doesn't carry out the work itself.</p>
+          </div>
+          <div class="role-card">
+            <div class="rk">Do</div>
+            <h3>Executor</h3>
+            <p>Carries out the work in an isolated box — its own git worktree per task — so parallel tasks never collide with your working tree or each other. It can loop fail → fix, but can't call it done.</p>
+          </div>
+          <div class="role-card">
+            <div class="rk">Prove</div>
+            <h3>Verifier</h3>
+            <p>Independently proves each result and attaches the evidence — a screenshot, a video, a fact-check, a passing test. That proof is what reaches you for sign-off, in seconds.</p>
+          </div>
+        </div>
+        <p class="role-flow reveal"><b>Orchestrator</b> picks → <b>Executor</b> carries it out in a lane → <b>Verifier</b> proves it → you sign off on the evidence → repeat</p>
+      </div>
+    </section>
+
+    <section class="section" style="padding: 8px 0 0;">
+      <div class="wrap">
+        <div class="sub-head reveal"><span class="n">04</span><h2>Carry the memory forward</h2></div>
+        <p class="lead-two reveal">A loop that forgets is just a prompt you retype. Two files hold the memory — every run reads both before acting and writes both before stopping. This is the one thing that separates a loop from a re-run.</p>
+        <div class="mem reveal">
+          <div class="m">
+            <div class="mf">PROGRESS.md</div>
+            <h3>Short-term working memory</h3>
+            <p>Current status, last-run summary, open items, blockers, what the next run should do, and a "do not repeat" list. Kept compact.</p>
+          </div>
+          <div class="m">
+            <div class="mf">MEMORY.md</div>
+            <h3>Long-term distilled memory</h3>
+            <p>Durable decisions and why, cached facts (IDs, thresholds, gotchas), reusable snippets, and the evolution log. The asset that makes each run cheaper than the last.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding: 8px 0 0;">
+      <div class="wrap">
+        <div class="sub-head reveal"><span class="n">05</span><h2>Improve the loop, or it never gets past day one</h2></div>
+        <div class="evolve reveal">
+          <div class="box">
+            <h3>A periodic pass that rewrites the loop itself</h3>
+            <p>A brittle setup falls over the first time a run goes wrong; a sturdy one shrugs it off; what you want is a loop that gets <b>stronger</b> because of it. An evolve pass reviews the recent runs and asks what wasted compute, which limit is too loose, and what mistake keeps recurring.</p>
+            <p>Its output isn't product work — it's edits to the loop: a tighter contract, a lighter trigger, mechanical steps folded into scripts and skills. The loop tuning itself. It's verified like any run and may only <b>tighten</b> scope — loosening always needs a human.</p>
+          </div>
+          <div class="box">
+            <h3>Each run sets up a cheaper, sharper next one</h3>
+            <p>You feel it in two places: the cost and the quality. Each pass folds what the loop learned into scripts and a tighter contract, so the next run reasons less, misses less, and costs less.</p>
+            <p>It <b>starts fully agent-driven</b>, learns the pattern, then the now-certain part <b>hardens into a cheap script</b> — and the model only steps back in when a guard condition fires or something genuinely unexpected shows up.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding: 8px 0 0;">
+      <div class="wrap">
+        <div class="sub-head reveal"><span class="n">06</span><h2>Pick your loop</h2></div>
         <div class="loop-grid reveal" id="grid"></div>
 
         <div class="callout reveal">
@@ -268,7 +393,7 @@
         output: "A diagnosis plus a suggested fix",
         verify: "Never touches code; a human approves before any fix is applied",
         perm: "Level 1–2",
-        prompt: "Set up a CI failure triage loop in this workspace. On each run, read the latest failing CI logs, classify the failure type, identify the likely cause, and draft a diagnosis plus a suggested fix, then run the verification checklist. Do not modify source code, re-run pipelines, or apply any fix — draft only, I apply. Start at permission level 1-2 and let me run it manually a few times before we schedule it."
+        prompt: "Set up a CI failure triage loop in this workspace. On each run, read the latest failing CI logs, classify the failure type, identify the likely cause, and draft a diagnosis plus a suggested fix, update its memory (PROGRESS.md + MEMORY.md), then run the verification checklist. Do not modify source code, re-run pipelines, or apply any fix — draft only, I apply. Start at permission level 1-2 and let me run it manually a few times before we schedule it."
       },
       {
         role: "DevOps / SRE",
@@ -278,7 +403,7 @@
         output: "A short “healthy” note, or a detailed incident note if something failed",
         verify: "Escalates to human review on the first failure signal — no silent retries",
         perm: "Level 1",
-        prompt: "Set up a deployment health check loop for this rollout. On each run, check the deployment and service health signals I point you at, and draft a short 'healthy, no changes' note when everything is fine, or a detailed incident note if something failed, then run the verification checklist. On the first real failure signal, stop and mark the run as needing human review rather than retrying silently. Read-only: do not restart, roll back, scale, or modify any service. Permission level 1, manual runs first."
+        prompt: "Set up a deployment health check loop for this rollout. On each run, check the deployment and service health signals I point you at, and draft a short 'healthy, no changes' note when everything is fine, or a detailed incident note if something failed, update its memory (PROGRESS.md + MEMORY.md), then run the verification checklist. On the first real failure signal, stop and mark the run as needing human review rather than retrying silently. Read-only: do not restart, roll back, scale, or modify any service. Permission level 1, manual runs first."
       },
       {
         role: "Product Manager",
@@ -288,7 +413,7 @@
         output: "A review note of changes and open decisions",
         verify: "Never edits the strategy doc itself — produces a review note only",
         perm: "Level 1–2",
-        prompt: "Set up a weekly strategy review loop for this workspace. On each run, read the product strategy doc and related notes, list what changed since the last run, and flag unresolved assumptions and open decisions, then run the verification checklist. Never edit the strategy doc or any source note — review notes only. Start at permission level 1-2 and let me run it manually before we schedule the weekly cadence."
+        prompt: "Set up a weekly strategy review loop for this workspace. On each run, read the product strategy doc and related notes, list what changed since the last run, and flag unresolved assumptions and open decisions, update its memory (PROGRESS.md + MEMORY.md), then run the verification checklist. Never edit the strategy doc or any source note — review notes only. Start at permission level 1-2 and let me run it manually before we schedule the weekly cadence."
       },
       {
         role: "Data Analyst",
@@ -298,7 +423,7 @@
         output: "A quiet note if nothing notable, a flagged note if an anomaly appears",
         verify: "Anomaly threshold must be explicit (e.g. >2 standard deviations), never “looks off”",
         perm: "Level 1",
-        prompt: "Set up a daily metrics anomaly watch loop. On each run, check the key metrics I specify for unusual movement versus recent history, using an explicit numeric threshold (e.g. more than 2 standard deviations from the trailing 14-day mean) — never 'looks off'. Draft a short quiet note when nothing is notable, or a flagged note when an anomaly appears, then run the verification checklist. Read-only: do not modify dashboards, queries, or data. Permission level 1, manual runs first."
+        prompt: "Set up a daily metrics anomaly watch loop. On each run, check the key metrics I specify for unusual movement versus recent history, using an explicit numeric threshold (e.g. more than 2 standard deviations from the trailing 14-day mean) — never 'looks off'. Draft a short quiet note when nothing is notable, or a flagged note when an anomaly appears, update its memory (PROGRESS.md + MEMORY.md), then run the verification checklist. Read-only: do not modify dashboards, queries, or data. Permission level 1, manual runs first."
       },
       {
         role: "QA Engineer",
@@ -308,7 +433,7 @@
         output: "A triage note grouping failures and flagging real regressions",
         verify: "Pass/fail counts must match the test runner’s own report exactly",
         perm: "Level 1–2",
-        prompt: "Set up a regression test triage loop that runs after the nightly suite. On each run, read the latest test results, group failures by likely root cause, and separate flaky tests from real regressions. Verification must include that your reported pass/fail counts match the test runner's own report exactly — if they don't, the run fails the checklist. Do not modify tests or source code, and do not re-run or quarantine anything — triage only. Permission level 1-2, manual runs first."
+        prompt: "Set up a regression test triage loop that runs after the nightly suite. On each run, read the latest test results, group failures by likely root cause, and separate flaky tests from real regressions. Verification must include that your reported pass/fail counts match the test runner's own report exactly — if they don't, the run fails the checklist. Update its memory (PROGRESS.md + MEMORY.md) each run. Do not modify tests or source code, and do not re-run or quarantine anything — triage only. Permission level 1-2, manual runs first."
       },
       {
         role: "Security / Compliance",
@@ -318,7 +443,7 @@
         output: "Drafted remediation suggestions, prioritized by severity",
         verify: "Never auto-upgrades or patches a dependency; always human-approved",
         perm: "Level 1–2",
-        prompt: "Set up a dependency vulnerability review loop. On each run, review the latest scan results, identify vulnerabilities that are new since the last run, prioritize them by severity, and draft remediation suggestions, then run the verification checklist. Never upgrade, patch, or edit a dependency file, lockfile, or CI config — drafts only, a human approves and applies. Never read .env files, keys, or credentials. Permission level 1-2, manual runs first."
+        prompt: "Set up a dependency vulnerability review loop. On each run, review the latest scan results, identify vulnerabilities that are new since the last run, prioritize them by severity, and draft remediation suggestions, update its memory (PROGRESS.md + MEMORY.md), then run the verification checklist. Never upgrade, patch, or edit a dependency file, lockfile, or CI config — drafts only, a human approves and applies. Never read .env files, keys, or credentials. Permission level 1-2, manual runs first."
       },
       {
         role: "Customer Support Lead",
@@ -328,7 +453,7 @@
         output: "A triage note plus draft replies for common issues",
         verify: "Never sends a reply automatically — a human sends after reviewing the draft",
         perm: "Level 2",
-        prompt: "Set up a support ticket triage loop. On each run, read tickets that are new since the last run, classify urgency, and for common issues draft suggested replies as separate drafts, then run the verification checklist. Never send, reply to, close, merge, or reassign a ticket — drafts only, a human reviews and sends. Permission level 2, manual runs first."
+        prompt: "Set up a support ticket triage loop. On each run, read tickets that are new since the last run, classify urgency, and for common issues draft suggested replies as separate drafts, update its memory (PROGRESS.md + MEMORY.md), then run the verification checklist. Never send, reply to, close, merge, or reassign a ticket — drafts only, a human reviews and sends. Permission level 2, manual runs first."
       },
       {
         role: "Marketing Manager",
@@ -338,7 +463,7 @@
         output: "A review of performance with a recommended next action",
         verify: "Only reads analytics/connector data — never edits live campaigns or budgets",
         perm: "Level 1",
-        prompt: "Set up a weekly campaign performance review loop. On each run, review the campaign metrics I point you at, compare them to the prior period, and note what is under- and over-performing with a short recommended next action, then run the verification checklist. Read-only: never edit, pause, launch, or change the budget of a live campaign. Permission level 1, manual runs before we schedule the weekly cadence."
+        prompt: "Set up a weekly campaign performance review loop. On each run, review the campaign metrics I point you at, compare them to the prior period, and note what is under- and over-performing with a short recommended next action, update its memory (PROGRESS.md + MEMORY.md), then run the verification checklist. Read-only: never edit, pause, launch, or change the budget of a live campaign. Permission level 1, manual runs before we schedule the weekly cadence."
       },
       {
         role: "HR / Recruiting",
@@ -348,7 +473,7 @@
         output: "Draft follow-up notes and reminders for stalled stages",
         verify: "Never contacts candidates directly — drafts only, a human sends",
         perm: "Level 1–2",
-        prompt: "Set up a candidate pipeline follow-up loop. On each run, check the candidate pipeline for stages that have stalled past their expected window, and draft suggested follow-up notes and reminders, then run the verification checklist. Never contact a candidate, send an email, or change a candidate's stage or status — drafts only, a human reviews and sends. Treat candidate details as sensitive and keep them inside the workspace. Permission level 1-2, manual runs first."
+        prompt: "Set up a candidate pipeline follow-up loop. On each run, check the candidate pipeline for stages that have stalled past their expected window, and draft suggested follow-up notes and reminders, update its memory (PROGRESS.md + MEMORY.md), then run the verification checklist. Never contact a candidate, send an email, or change a candidate's stage or status — drafts only, a human reviews and sends. Treat candidate details as sensitive and keep them inside the workspace. Permission level 1-2, manual runs first."
       },
       {
         role: "Finance / Ops",
@@ -358,7 +483,7 @@
         output: "Anomalies flagged for human review",
         verify: "Never approves, pays, or modifies a financial record — strictly read-and-flag",
         perm: "Level 1",
-        prompt: "Set up an expense and invoice anomaly review loop. On each run, scan the latest expense and invoice records for duplicates, out-of-policy amounts, and missing approvals, using explicit policy thresholds rather than judgement calls, and flag each anomaly for human review, then run the verification checklist. Never approve, pay, categorize, or modify a financial record — strictly read-and-flag. Permission level 1, manual runs first."
+        prompt: "Set up an expense and invoice anomaly review loop. On each run, scan the latest expense and invoice records for duplicates, out-of-policy amounts, and missing approvals, using explicit policy thresholds rather than judgement calls, and flag each anomaly for human review, update its memory (PROGRESS.md + MEMORY.md), then run the verification checklist. Never approve, pay, categorize, or modify a financial record — strictly read-and-flag. Permission level 1, manual runs first."
       },
       {
         role: "Legal / Compliance",
@@ -368,7 +493,7 @@
         output: "Deviations flagged for a human lawyer",
         verify: "Never approves, signs, or sends a contract — strictly read-and-flag",
         perm: "Level 1",
-        prompt: "Set up a contract clause watch loop. On each run, scan contracts that are new since the last run for non-standard clauses — indemnity, liability caps, termination terms — comparing them against the approved clause library I provide, and flag every deviation with the exact clause text and location for a human lawyer to review, then run the verification checklist. Never approve, sign, send, or edit a contract, and never give a legal conclusion — strictly read-and-flag. Permission level 1, manual runs first."
+        prompt: "Set up a contract clause watch loop. On each run, scan contracts that are new since the last run for non-standard clauses — indemnity, liability caps, termination terms — comparing them against the approved clause library I provide, and flag every deviation with the exact clause text and location for a human lawyer to review, update its memory (PROGRESS.md + MEMORY.md), then run the verification checklist. Never approve, sign, send, or edit a contract, and never give a legal conclusion — strictly read-and-flag. Permission level 1, manual runs first."
       },
       {
         role: "Sales",
@@ -378,7 +503,7 @@
         output: "Draft outreach notes for stalled deals",
         verify: "Never emails prospects or edits deal stage/value — drafts only, the rep sends",
         perm: "Level 1–2",
-        prompt: "Set up a daily pipeline hygiene loop. On each run, review the CRM export in this workspace for stalled deals, missing next steps, and overdue follow-ups, and draft suggested outreach notes, then run the verification checklist. Never email a prospect, log an activity, or edit a deal's stage, value, or close date — drafts only, the rep reviews and sends. Permission level 1-2, manual runs first."
+        prompt: "Set up a daily pipeline hygiene loop. On each run, review the CRM export in this workspace for stalled deals, missing next steps, and overdue follow-ups, and draft suggested outreach notes, update its memory (PROGRESS.md + MEMORY.md), then run the verification checklist. Never email a prospect, log an activity, or edit a deal's stage, value, or close date — drafts only, the rep reviews and sends. Permission level 1-2, manual runs first."
       },
       {
         role: "Education",
@@ -388,7 +513,7 @@
         output: "A short, factual progress note per student",
         verify: "Never changes grades or contacts guardians — drafts for the teacher to review and send",
         perm: "Level 1",
-        prompt: "Set up a weekly student progress loop. On each run, review the assignment and quiz results in this workspace, identify students who are falling behind or excelling relative to the previous run, and draft a short, factual progress note per student, then run the verification checklist. Never change a grade, edit the gradebook, or contact a student or guardian — drafts for me to review and send. Treat all student data as sensitive and keep it inside this workspace. Permission level 1, manual runs first."
+        prompt: "Set up a weekly student progress loop. On each run, review the assignment and quiz results in this workspace, identify students who are falling behind or excelling relative to the previous run, and draft a short, factual progress note per student, update its memory (PROGRESS.md + MEMORY.md), then run the verification checklist. Never change a grade, edit the gradebook, or contact a student or guardian — drafts for me to review and send. Treat all student data as sensitive and keep it inside this workspace. Permission level 1, manual runs first."
       }
     ];
 

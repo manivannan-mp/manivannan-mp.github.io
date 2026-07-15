@@ -111,12 +111,57 @@
         <p>Under the hood every loop is the same six-beat cycle, and it never self-certifies with "looks done":</p>
         <ul>
           <li><strong>Trigger</strong> — a timer, an event, or a <code>/loop</code> command starts a run.</li>
-          <li><strong>Context</strong> — Claude reads a stable <code>TASK.md</code> and its own <code>PROGRESS.md</code> memory.</li>
+          <li><strong>Context</strong> — Claude reads a stable <code>TASK.md</code> and its own <code>PROGRESS.md</code> and <code>MEMORY.md</code>.</li>
           <li><strong>Action</strong> — it takes one constrained, in-scope step.</li>
           <li><strong>Verify</strong> — it runs a concrete pass/fail checklist, not a vibe.</li>
-          <li><strong>State</strong> — it writes what happened back to <code>PROGRESS.md</code>.</li>
+          <li><strong>State</strong> — it writes what happened, and what it learned, back to memory.</li>
           <li><strong>Decide</strong> — stop, retry once, or escalate to a human.</li>
         </ul>
+
+        <h2>The four parts — and the two everyone skips</h2>
+        <p>
+          The prompt turns out to be maybe 5% of the work. The rest is the structure that makes it safe
+          to leave the loop running, and every good loop has the same four parts. Two are obvious: a
+          <strong>contract</strong> (one file with the goal, the boundary fence, and the steps — that
+          fence is what makes it safe to leave a run alone) and a <strong>trigger</strong> (the lightest
+          thing that wakes it, so runs that find nothing cost almost nothing). The two people skip are
+          the ones that matter most: <strong>state + logs</strong> — durable memory so the loop never
+          re-solves solved work and run fifty is sharper than run five — and a <strong>verifier</strong>
+          that keeps working until it can point to evidence a person can check at a glance. No evidence,
+          not finished.
+        </p>
+
+        <h2>Three roles, so you sign off on proof, not diffs</h2>
+        <p>
+          A throwaway loop does everything in one pass. A serious one splits into three roles: an
+          <strong>Orchestrator</strong> that wakes on the trigger and just <em>picks</em> the single
+          most worthwhile task, an <strong>Executor</strong> that carries it out in an isolated lane — its
+          own git worktree per task, so parallel tasks never collide — and a <strong>Verifier</strong>
+          that independently proves each result and attaches the evidence: a screenshot, a passing test,
+          a fact-check. The trick is keeping the Executor and the Verifier apart — the thing that did the
+          work doesn't get to be the thing that says the work is good. What lands on your desk isn't a
+          diff to squint at; it's proof you can sign off on in seconds.
+        </p>
+
+        <h2>It remembers — and it evolves</h2>
+        <p>
+          Here's the part that turns a scheduled prompt into something that actually compounds: the loop
+          <strong>carries its memory forward</strong>. <code>PROGRESS.md</code> holds the short-term
+          working state; <code>MEMORY.md</code> holds the durable stuff — decisions and why they were
+          made, facts worth caching, and a running evolution log. Every run reads both before it acts and
+          writes both before it stops. A loop that forgets is just a prompt you retype.
+        </p>
+        <p>
+          And left alone, a loop stays exactly as clumsy on run #100 as it was on day one. A brittle
+          setup breaks the first time a run goes wrong; a good one gets <strong>stronger</strong> from
+          it. So the skill builds in an <strong>evolve pass</strong>: every so often, instead of doing
+          the task, Claude reviews the recent runs and asks what wasted compute, which limit is too
+          loose, and which mistake keeps recurring — then rewrites the loop itself, folding the certain
+          parts into scripts. That's how a loop that <em>starts fully agent-driven</em> gradually
+          <em>hardens into a cheap script</em>, waking the expensive model only when something genuinely
+          unexpected shows up. Each run sets up a cheaper, sharper next one. The one rule: evolution
+          can only <em>tighten</em> the safety boundary on its own — loosening scope always needs a human.
+        </p>
 
         <h2>Install it in under a minute</h2>
         <ol>
