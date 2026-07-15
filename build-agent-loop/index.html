@@ -492,8 +492,8 @@
                 <path class="cxn cxn-ver" marker-end="url(#mVer)" d="M760,162 H804"/>
                 <path class="cxn cxn-ver" marker-end="url(#mVer)" d="M760,286 H804"/>
                 <path class="cxn cxn-ver" marker-end="url(#mVer)" d="M760,410 H804"/>
-                <path class="cxn cxn-fail cxn-dash" marker-end="url(#mOrch)" d="M546,312 H502"/>
-                <text class="fail-label" x="524" y="303">fail→fix</text>
+                <path class="cxn cxn-fail cxn-dash" marker-end="url(#mOrch)" d="M546,436 H502"/>
+                <text class="fail-label" x="523" y="427">fail→fix</text>
                 <path class="cxn cxn-ver cxn-dash" marker-end="url(#mVer)" d="M872,456 V512 H136 V487"/>
                 <text class="rail-label" x="506" y="505">every run reports back → orchestrator writes state + logs</text>
               </svg>
@@ -514,41 +514,41 @@
               </div>
 
               <div class="fcard f-lane stage" style="--hot:var(--c-exec);--hot-soft:var(--c-exec-soft);animation-delay:-6s;left:300px;top:116px;width:200px;height:92px;">
-                <span class="f-lane-tag">task A</span>
+                <span class="f-lane-tag">support · inbox</span>
                 <div class="f-role" style="color:var(--c-exec)"><span class="ic">📦</span>Executor</div>
-                <div class="f-sub" style="color:var(--c-exec)">isolated worktree</div>
+                <div class="f-sub" style="color:var(--c-exec)">draft replies · isolated</div>
               </div>
               <div class="fcard f-lane stage" style="--hot:var(--c-exec);--hot-soft:var(--c-exec-soft);animation-delay:-6s;left:300px;top:240px;width:200px;height:92px;">
-                <span class="f-lane-tag">task B</span>
+                <span class="f-lane-tag">data · metrics</span>
                 <div class="f-role" style="color:var(--c-exec)"><span class="ic">📦</span>Executor</div>
-                <div class="f-sub" style="color:var(--c-exec)">isolated worktree</div>
+                <div class="f-sub" style="color:var(--c-exec)">scan metrics · read-only</div>
               </div>
               <div class="fcard f-lane stage" style="--hot:var(--c-exec);--hot-soft:var(--c-exec-soft);animation-delay:-6s;left:300px;top:364px;width:200px;height:92px;">
-                <span class="f-lane-tag">task C</span>
+                <span class="f-lane-tag">engineering · errors</span>
                 <div class="f-role" style="color:var(--c-exec)"><span class="ic">📦</span>Executor</div>
-                <div class="f-sub" style="color:var(--c-exec)">isolated worktree</div>
+                <div class="f-sub" style="color:var(--c-exec)">fix in a git worktree</div>
               </div>
 
               <div class="fcard f-ver stage" style="--hot:var(--c-ver);--hot-soft:var(--c-ver-soft);animation-delay:-4s;left:548px;top:116px;width:212px;height:92px;">
                 <div class="f-role" style="color:var(--c-ver)"><span class="ic">🛡️</span>Verifier</div>
-                <div class="f-sub">drive the app · 🎬 evidence</div>
+                <div class="f-sub">tone + facts · ✅ checked</div>
               </div>
               <div class="fcard f-ver stage" style="--hot:var(--c-ver);--hot-soft:var(--c-ver-soft);animation-delay:-4s;left:548px;top:240px;width:212px;height:92px;">
                 <div class="f-role" style="color:var(--c-ver)"><span class="ic">🛡️</span>Verifier</div>
-                <div class="f-sub">drive the app · 🎬 evidence</div>
+                <div class="f-sub">&gt; 2σ vs 14-day · 📊</div>
               </div>
               <div class="fcard f-ver stage" style="--hot:var(--c-ver);--hot-soft:var(--c-ver-soft);animation-delay:-4s;left:548px;top:364px;width:212px;height:92px;">
                 <div class="f-role" style="color:var(--c-ver)"><span class="ic">🛡️</span>Verifier</div>
-                <div class="f-sub">drive the app · 🎬 evidence</div>
+                <div class="f-sub">tests pass · 🎬 screenshot</div>
               </div>
 
               <div class="fcard f-pr stage" style="--hot:var(--c-ver);--hot-soft:var(--c-ver-soft);animation-delay:-2s;left:806px;top:116px;width:132px;height:92px;">
-                <div class="f-role">✓ PR + proof</div>
-                <div class="f-sub">approve in seconds</div>
+                <div class="f-role">✉ drafts ready</div>
+                <div class="f-sub">you hit send</div>
               </div>
               <div class="fcard f-pr stage" style="--hot:var(--c-ver);--hot-soft:var(--c-ver-soft);animation-delay:-2s;left:806px;top:240px;width:132px;height:92px;">
-                <div class="f-role">✓ PR + proof</div>
-                <div class="f-sub">approve in seconds</div>
+                <div class="f-role">🚩 anomaly flagged</div>
+                <div class="f-sub">human reviews</div>
               </div>
               <div class="fcard f-pr stage" style="--hot:var(--c-ver);--hot-soft:var(--c-ver-soft);animation-delay:-2s;left:806px;top:364px;width:132px;height:92px;">
                 <div class="f-role">✓ PR + proof</div>
