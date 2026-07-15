@@ -136,8 +136,8 @@
     /* ============ three-role pipeline ============ */
     .flow-viz { margin: 20px 0 4px; }
     .flow-scroll { overflow-x: auto; overflow-y: hidden; padding: 8px 2px 4px; }
-    .flow { position: relative; width: 960px; height: 540px; margin: 0 auto; }
-    .flow-svg { position: absolute; inset: 0; width: 960px; height: 540px; pointer-events: none; overflow: visible; }
+    .flow { position: relative; width: 960px; height: 600px; margin: 0 auto; }
+    .flow-svg { position: absolute; inset: 0; width: 960px; height: 600px; pointer-events: none; overflow: visible; }
     .cxn { fill: none; stroke-width: 2; }
     .cxn-orch { stroke: var(--c-orch); opacity: .72; }
     .cxn-ver  { stroke: var(--c-ver);  opacity: .68; }
@@ -477,32 +477,35 @@
         <div class="flow-viz reveal flow">
           <div class="flow-scroll">
             <div class="flow">
-              <svg class="flow-svg" viewBox="0 0 960 540" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <svg class="flow-svg" viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <defs>
                   <marker id="mOrch" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="mk-orch"/></marker>
                   <marker id="mVer" viewBox="0 0 10 10" refX="7.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="mk-ver"/></marker>
                 </defs>
                 <path class="cxn cxn-orch" marker-end="url(#mOrch)" d="M136,74 V88"/>
-                <path class="cxn cxn-orch" marker-end="url(#mOrch)" d="M252,288 C284,288 268,162 298,162"/>
-                <path class="cxn cxn-orch" marker-end="url(#mOrch)" d="M252,288 C280,288 282,286 298,286"/>
-                <path class="cxn cxn-orch" marker-end="url(#mOrch)" d="M252,288 C284,288 268,410 298,410"/>
-                <path class="cxn cxn-ver" marker-end="url(#mVer)" d="M500,162 H546"/>
-                <path class="cxn cxn-ver" marker-end="url(#mVer)" d="M500,286 H546"/>
-                <path class="cxn cxn-ver" marker-end="url(#mVer)" d="M500,410 H546"/>
-                <path class="cxn cxn-ver" marker-end="url(#mVer)" d="M760,162 H804"/>
-                <path class="cxn cxn-ver" marker-end="url(#mVer)" d="M760,286 H804"/>
-                <path class="cxn cxn-ver" marker-end="url(#mVer)" d="M760,410 H804"/>
-                <path class="cxn cxn-fail cxn-dash" marker-end="url(#mOrch)" d="M546,436 H502"/>
-                <text class="fail-label" x="523" y="427">fail→fix</text>
-                <path class="cxn cxn-ver cxn-dash" marker-end="url(#mVer)" d="M872,456 V512 H136 V487"/>
-                <text class="rail-label" x="506" y="505">every run reports back → orchestrator writes state + logs</text>
+                <path class="cxn cxn-orch" marker-end="url(#mOrch)" d="M252,306 C288,306 268,152 298,152"/>
+                <path class="cxn cxn-orch" marker-end="url(#mOrch)" d="M252,306 C282,306 282,260 298,260"/>
+                <path class="cxn cxn-orch" marker-end="url(#mOrch)" d="M252,306 C282,306 282,368 298,368"/>
+                <path class="cxn cxn-orch" marker-end="url(#mOrch)" d="M252,306 C288,306 268,476 298,476"/>
+                <path class="cxn cxn-ver" marker-end="url(#mVer)" d="M500,152 H546"/>
+                <path class="cxn cxn-ver" marker-end="url(#mVer)" d="M500,260 H546"/>
+                <path class="cxn cxn-ver" marker-end="url(#mVer)" d="M500,368 H546"/>
+                <path class="cxn cxn-ver" marker-end="url(#mVer)" d="M500,476 H546"/>
+                <path class="cxn cxn-ver" marker-end="url(#mVer)" d="M760,152 H804"/>
+                <path class="cxn cxn-ver" marker-end="url(#mVer)" d="M760,260 H804"/>
+                <path class="cxn cxn-ver" marker-end="url(#mVer)" d="M760,368 H804"/>
+                <path class="cxn cxn-ver" marker-end="url(#mVer)" d="M760,476 H804"/>
+                <path class="cxn cxn-fail cxn-dash" marker-end="url(#mOrch)" d="M546,390 H502"/>
+                <text class="fail-label" x="523" y="382">fail→fix</text>
+                <path class="cxn cxn-ver cxn-dash" marker-end="url(#mVer)" d="M872,520 V552 H136 V524"/>
+                <text class="rail-label" x="506" y="545">every run reports back → orchestrator writes state + logs</text>
               </svg>
 
               <div class="fcard f-trigger stage" style="--hot:var(--c-orch);--hot-soft:var(--c-orch-soft);animation-delay:-10s;left:48px;top:34px;width:176px;height:40px;">
                 <span class="f-trig">⏰ trigger fires</span>
               </div>
 
-              <div class="fcard f-orch stage" style="--hot:var(--c-orch);--hot-soft:var(--c-orch-soft);animation-delay:-8s;left:24px;top:92px;width:228px;height:392px;">
+              <div class="fcard f-orch stage" style="--hot:var(--c-orch);--hot-soft:var(--c-orch-soft);animation-delay:-8s;left:24px;top:92px;width:228px;height:428px;">
                 <div class="f-role" style="color:var(--c-orch)"><span class="ic">🧭</span>Orchestrator</div>
                 <div class="f-note">find the work, don't do it</div>
                 <div class="f-chips">
@@ -513,46 +516,59 @@
                 <div class="f-pill f-pill-ver">✍ writes state + logs</div>
               </div>
 
-              <div class="fcard f-lane stage" style="--hot:var(--c-exec);--hot-soft:var(--c-exec-soft);animation-delay:-6s;left:300px;top:116px;width:200px;height:92px;">
+              <div class="fcard f-lane stage" style="--hot:var(--c-exec);--hot-soft:var(--c-exec-soft);animation-delay:-6s;left:300px;top:108px;width:200px;height:88px;">
                 <span class="f-lane-tag">support · inbox</span>
                 <div class="f-role" style="color:var(--c-exec)"><span class="ic">📦</span>Executor</div>
                 <div class="f-sub" style="color:var(--c-exec)">draft replies · isolated</div>
               </div>
-              <div class="fcard f-lane stage" style="--hot:var(--c-exec);--hot-soft:var(--c-exec-soft);animation-delay:-6s;left:300px;top:240px;width:200px;height:92px;">
+              <div class="fcard f-lane stage" style="--hot:var(--c-exec);--hot-soft:var(--c-exec-soft);animation-delay:-6s;left:300px;top:216px;width:200px;height:88px;">
                 <span class="f-lane-tag">data · metrics</span>
                 <div class="f-role" style="color:var(--c-exec)"><span class="ic">📦</span>Executor</div>
                 <div class="f-sub" style="color:var(--c-exec)">scan metrics · read-only</div>
               </div>
-              <div class="fcard f-lane stage" style="--hot:var(--c-exec);--hot-soft:var(--c-exec-soft);animation-delay:-6s;left:300px;top:364px;width:200px;height:92px;">
+              <div class="fcard f-lane stage" style="--hot:var(--c-exec);--hot-soft:var(--c-exec-soft);animation-delay:-6s;left:300px;top:324px;width:200px;height:88px;">
                 <span class="f-lane-tag">engineering · errors</span>
                 <div class="f-role" style="color:var(--c-exec)"><span class="ic">📦</span>Executor</div>
                 <div class="f-sub" style="color:var(--c-exec)">fix in a git worktree</div>
               </div>
+              <div class="fcard f-lane stage" style="--hot:var(--c-exec);--hot-soft:var(--c-exec-soft);animation-delay:-6s;left:300px;top:432px;width:200px;height:88px;">
+                <span class="f-lane-tag">finance / legal</span>
+                <div class="f-role" style="color:var(--c-exec)"><span class="ic">📦</span>Executor</div>
+                <div class="f-sub" style="color:var(--c-exec)">read clauses · isolated</div>
+              </div>
 
-              <div class="fcard f-ver stage" style="--hot:var(--c-ver);--hot-soft:var(--c-ver-soft);animation-delay:-4s;left:548px;top:116px;width:212px;height:92px;">
+              <div class="fcard f-ver stage" style="--hot:var(--c-ver);--hot-soft:var(--c-ver-soft);animation-delay:-4s;left:548px;top:108px;width:212px;height:88px;">
                 <div class="f-role" style="color:var(--c-ver)"><span class="ic">🛡️</span>Verifier</div>
                 <div class="f-sub">tone + facts · ✅ checked</div>
               </div>
-              <div class="fcard f-ver stage" style="--hot:var(--c-ver);--hot-soft:var(--c-ver-soft);animation-delay:-4s;left:548px;top:240px;width:212px;height:92px;">
+              <div class="fcard f-ver stage" style="--hot:var(--c-ver);--hot-soft:var(--c-ver-soft);animation-delay:-4s;left:548px;top:216px;width:212px;height:88px;">
                 <div class="f-role" style="color:var(--c-ver)"><span class="ic">🛡️</span>Verifier</div>
                 <div class="f-sub">&gt; 2σ vs 14-day · 📊</div>
               </div>
-              <div class="fcard f-ver stage" style="--hot:var(--c-ver);--hot-soft:var(--c-ver-soft);animation-delay:-4s;left:548px;top:364px;width:212px;height:92px;">
+              <div class="fcard f-ver stage" style="--hot:var(--c-ver);--hot-soft:var(--c-ver-soft);animation-delay:-4s;left:548px;top:324px;width:212px;height:88px;">
                 <div class="f-role" style="color:var(--c-ver)"><span class="ic">🛡️</span>Verifier</div>
                 <div class="f-sub">tests pass · 🎬 screenshot</div>
               </div>
+              <div class="fcard f-ver stage" style="--hot:var(--c-ver);--hot-soft:var(--c-ver-soft);animation-delay:-4s;left:548px;top:432px;width:212px;height:88px;">
+                <div class="f-role" style="color:var(--c-ver)"><span class="ic">🛡️</span>Verifier</div>
+                <div class="f-sub">vs clause library · 📑</div>
+              </div>
 
-              <div class="fcard f-pr stage" style="--hot:var(--c-ver);--hot-soft:var(--c-ver-soft);animation-delay:-2s;left:806px;top:116px;width:132px;height:92px;">
+              <div class="fcard f-pr stage" style="--hot:var(--c-ver);--hot-soft:var(--c-ver-soft);animation-delay:-2s;left:806px;top:108px;width:132px;height:88px;">
                 <div class="f-role">✉ drafts ready</div>
                 <div class="f-sub">you hit send</div>
               </div>
-              <div class="fcard f-pr stage" style="--hot:var(--c-ver);--hot-soft:var(--c-ver-soft);animation-delay:-2s;left:806px;top:240px;width:132px;height:92px;">
+              <div class="fcard f-pr stage" style="--hot:var(--c-ver);--hot-soft:var(--c-ver-soft);animation-delay:-2s;left:806px;top:216px;width:132px;height:88px;">
                 <div class="f-role">🚩 anomaly flagged</div>
                 <div class="f-sub">human reviews</div>
               </div>
-              <div class="fcard f-pr stage" style="--hot:var(--c-ver);--hot-soft:var(--c-ver-soft);animation-delay:-2s;left:806px;top:364px;width:132px;height:92px;">
+              <div class="fcard f-pr stage" style="--hot:var(--c-ver);--hot-soft:var(--c-ver-soft);animation-delay:-2s;left:806px;top:324px;width:132px;height:88px;">
                 <div class="f-role">✓ PR + proof</div>
                 <div class="f-sub">approve in seconds</div>
+              </div>
+              <div class="fcard f-pr stage" style="--hot:var(--c-ver);--hot-soft:var(--c-ver-soft);animation-delay:-2s;left:806px;top:432px;width:132px;height:88px;">
+                <div class="f-role">⚖ risks flagged</div>
+                <div class="f-sub">a lawyer decides</div>
               </div>
             </div>
           </div>
