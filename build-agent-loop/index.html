@@ -100,7 +100,7 @@
           <a class="btn btn-ghost" href="showcase.html">See the 13 use cases →</a>
           <a class="btn btn-ghost" href="../blog/taught-claude-to-stop-repeating.html">Read the story →</a>
         </div>
-        <p class="dl-note">build-agent-loop.skill · ~21&nbsp;KB · installs into your own Claude account</p>
+        <p class="dl-note">build-agent-loop.skill · ~22&nbsp;KB · installs into your own Claude account</p>
       </div>
     </section>
 
@@ -153,28 +153,29 @@
     <section class="section section-alt">
       <div class="wrap">
         <div class="section-head reveal"><span class="section-num">02</span><h2>The four parts of a good loop</h2></div>
-        <p class="lead-two reveal">Designing a loop is really four choices. Most people nail the first three and skip the fourth — the one that decides whether the loop can ever run unattended.</p>
+        <p class="lead-two reveal">Writing the prompt is the easy 5%. The real work is the structure that lets you walk away while it runs. Most people write parts 1 and 4 and skip 2 and 3 — the two that actually let it run unattended.</p>
         <div class="parts reveal">
           <div class="part">
-            <div class="k">01</div>
-            <h3>Trigger</h3>
-            <p>What wakes the loop, and how cheap that wake-up is. Prefer the cheapest trigger that still catches the event.</p>
-          </div>
-          <div class="part">
-            <div class="k">02</div>
-            <h3>File structure &amp; contract</h3>
-            <p>Where the goal, the memory, and the outputs live. The single most important decision — a loop is only as good as the state it can read back.</p>
-          </div>
-          <div class="part">
-            <div class="k">03</div>
-            <h3>Tools &amp; connectors</h3>
-            <p>What it's allowed to touch, as explicit allow/deny rules for files, commands, and connectors — never a vague "be careful."</p>
+            <div class="k">01 · Contract</div>
+            <h3>The fence</h3>
+            <p>One file the agent re-reads every run: the goal, the boundary fence (ship it yourself vs. ask a human), and the SOP. The fence decides whether you can walk away.</p>
           </div>
           <div class="part skip">
-            <div class="tag">Everyone skips</div>
-            <div class="k">04</div>
-            <h3>Self-verifying workspace</h3>
-            <p>Objective gates — tests, linters, required files, exact-count checks — that let the loop grade its own output.</p>
+            <div class="tag">Most skip</div>
+            <div class="k">02 · State + logs</div>
+            <h3>Durable memory</h3>
+            <p>Hypotheses, "skip / known-noise" lists, and a dated log the loop reads back every run — so it never re-does work. Month three is smarter than week one.</p>
+          </div>
+          <div class="part skip">
+            <div class="tag">Most skip</div>
+            <div class="k">03 · Verifier</div>
+            <h3>Proof, or not done</h3>
+            <p>The loop runs fail → fix → verify until there's evidence a human can glance at — a passing test, an exact count, a screenshot. No proof, not done.</p>
+          </div>
+          <div class="part">
+            <div class="k">04 · Trigger</div>
+            <h3>Cheapest that fits</h3>
+            <p>A push toward a goal, a cron schedule, or an event gate — so empty runs cost nothing.</p>
           </div>
         </div>
       </div>
@@ -184,25 +185,25 @@
     <section class="section">
       <div class="wrap">
         <div class="section-head reveal"><span class="section-num">03</span><h2>Serious loops split into three roles</h2></div>
-        <p class="lead-two reveal">A trivial loop does everything in one pass. A serious one separates three roles so no single step gets to mark its own homework as correct.</p>
+        <p class="lead-two reveal">A simple loop is one agent doing the whole job. Once a loop ships real work to real people it splits: one finds the work, one does it in an isolated lane, one proves it. You approve <em>evidence, not diffs</em>.</p>
         <div class="roles reveal">
           <div class="role-card">
-            <div class="rk">Plan</div>
+            <div class="rk">Find</div>
             <h3>Orchestrator</h3>
-            <p>Reads the memory and the contract, decides what <em>this</em> run should do, and dispatches it. Usually cheap.</p>
+            <p>Wakes on the trigger and finds the task — reads what changed (errors, inbox, metrics, PRs), picks the single most worthwhile thing this run, and dispatches it. It never does the work itself.</p>
           </div>
           <div class="role-card">
-            <div class="rk">Act</div>
-            <h3>Worker</h3>
-            <p>Performs the one bounded action in scope. It does the work — it does not get to decide whether the work is good.</p>
+            <div class="rk">Do</div>
+            <h3>Executor</h3>
+            <p>Does the work in an isolated box — a fresh git worktree per task — so lanes never touch your checkout or each other. It can loop fail → fix, but can't declare success.</p>
           </div>
           <div class="role-card">
-            <div class="rk">Check</div>
-            <h3>Evaluator</h3>
-            <p>Independently verifies the output against the checklist and writes the lesson into memory. Never the same step that produced the output.</p>
+            <div class="rk">Prove</div>
+            <h3>Verifier</h3>
+            <p>Independently proves each result and attaches the evidence — a screenshot, a video, a fact-check, a passing test. That proof is what you review, in seconds.</p>
           </div>
         </div>
-        <p class="role-flow reveal"><b>Orchestrator</b> plans → <b>Worker</b> acts → <b>Evaluator</b> checks &amp; remembers → repeat</p>
+        <p class="role-flow reveal"><b>Orchestrator</b> finds → <b>Executor</b> does it in a lane → <b>Verifier</b> proves it → you approve the evidence → repeat</p>
       </div>
     </section>
 
@@ -219,10 +220,10 @@
             <p>Every run reads both before acting and writes both before stopping. That's the one thing that separates a loop from re-typing a prompt.</p>
           </div>
           <div class="box">
-            <div class="mf">The evolution pass</div>
+            <div class="mf">The evolve pass</div>
             <h3>Every run compiles a cheaper next run</h3>
-            <p>Each run leaves behind cached facts and reusable scripts, so mechanical work runs deterministically and for free and the model is saved for the genuinely hard part.</p>
-            <p>Every N runs a self-improvement pass rewrites the loop itself — tighter contract, cheaper trigger, dead instructions pruned. It's verified like any run, and it may only <b>tighten</b> the safety boundary; loosening always needs a human.</p>
+            <p>An antifragile loop gets stronger from a bad run. Every N runs, an evolve pass reads the last dozen runs — where money was wasted, which boundary is too loose, which mistake keeps repeating — and rewrites the loop, not the product: tighter contract, cheaper trigger, mechanical steps folded into scripts.</p>
+            <p><b>Born agentic</b>, it learns the pattern, then <b>graduates to a cheap script</b> — the model only wakes back up when a tripwire trips. It's verified like any run, and may only <b>tighten</b> scope; loosening always needs a human.</p>
           </div>
         </div>
       </div>

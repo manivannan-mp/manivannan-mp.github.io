@@ -118,27 +118,28 @@
           <li><strong>Decide</strong> — stop, retry once, or escalate to a human.</li>
         </ul>
 
-        <h2>The four parts — and the one everyone skips</h2>
+        <h2>The four parts — and the two everyone skips</h2>
         <p>
-          When you design a loop you're really making four choices, and I learned the hard way that
-          they're not equally weighted. The <strong>trigger</strong> (what wakes it), the
-          <strong>file structure</strong> (where the goal, memory, and outputs live), and the
-          <strong>tools</strong> (what it's allowed to touch) are the obvious three. The fourth is a
-          <strong>self-verifying workspace</strong> — objective gates like tests, required files, or
-          exact-count checks that let the loop grade its own output. Most people skip it, and it's the
-          exact thing that decides whether a loop can ever run when you're not watching. No self-check,
-          no unattended loop. It's that simple.
+          Writing the prompt turns out to be the easy 5%. The real work is the structure that lets you
+          walk away while it runs, and every good loop has the same four parts. Two are obvious: a
+          <strong>contract</strong> (one file with the goal, the boundary fence, and the steps — the
+          fence is what decides whether you can actually leave it alone) and a <strong>trigger</strong>
+          (the cheapest thing that wakes it, so empty runs cost nothing). The two people skip are the
+          ones that matter most: <strong>state + logs</strong> — durable memory so the loop never
+          re-does work and month three is smarter than week one — and a <strong>verifier</strong> that
+          keeps working until there's evidence a human can glance at. No proof, not done.
         </p>
 
-        <h2>Three roles, so nothing grades its own homework</h2>
+        <h2>Three roles, so you approve evidence, not diffs</h2>
         <p>
-          A throwaway loop can do everything in one pass. A serious one splits into three roles: an
-          <strong>Orchestrator</strong> that reads the memory and decides what this run should do, a
-          <strong>Worker</strong> that does the one bounded action, and an <strong>Evaluator</strong>
-          that independently checks the result and writes down the lesson. The trick is keeping the
-          Worker and the Evaluator apart — the thing that did the work doesn't get to be the thing that
-          says the work is good. That one separation is what stops a loop from confidently drifting
-          off course.
+          A throwaway loop does everything in one pass. A serious one splits into three roles: an
+          <strong>Orchestrator</strong> that wakes on the trigger and just <em>finds</em> the single
+          most worthwhile task, an <strong>Executor</strong> that does the work in an isolated lane — a
+          fresh git worktree per task, so lanes never touch each other — and a <strong>Verifier</strong>
+          that independently proves each result and attaches the evidence: a screenshot, a passing test,
+          a fact-check. The trick is keeping the Executor and the Verifier apart — the thing that did the
+          work doesn't get to be the thing that says the work is good. What lands on your desk isn't a
+          diff to squint at; it's proof you can approve in seconds.
         </p>
 
         <h2>It remembers — and it evolves</h2>
@@ -150,11 +151,14 @@
           writes both before it stops. A loop that forgets is just a prompt you retype.
         </p>
         <p>
-          And left alone, a loop stays exactly as clumsy on run #100 as it was on day one. So the skill
-          builds in an <strong>evolution pass</strong>: every so often, instead of doing the task, Claude
-          rewrites the loop — tightening a vague instruction, folding a repeated manual step into a script
-          so it runs for free next time, promoting a hard-won fact into long-term memory. Every run should
-          compile a cheaper, smarter next run. The one rule: evolution can only <em>tighten</em> the
+          And left alone, a loop stays exactly as clumsy on run #100 as it was on day one. Fragile
+          systems break on a bad run; an <strong>antifragile</strong> one gets stronger from it. So the
+          skill builds in an <strong>evolve pass</strong>: every so often, instead of doing the task,
+          Claude reads back the last dozen runs and asks where money was wasted, which boundary is too
+          loose, and which mistake keeps repeating — then rewrites the loop itself, folding the certain
+          parts into scripts. That's how a loop <em>born agentic</em> gradually <em>graduates to a cheap
+          script</em>, waking the expensive model only when something genuinely surprising happens. Every
+          run compiles a cheaper, smarter next one. The one rule: evolution can only <em>tighten</em> the
           safety boundary on its own — loosening scope always needs a human.
         </p>
 

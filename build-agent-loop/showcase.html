@@ -269,28 +269,29 @@
     <section class="section" style="padding: 8px 0 0;">
       <div class="wrap">
         <div class="sub-head reveal"><span class="n">02</span><h2>The four parts of a good loop</h2></div>
-        <p class="lead-two reveal">Designing a loop is really four choices. Most people nail the first three and skip the fourth — the one that decides whether the loop can ever run unattended.</p>
+        <p class="lead-two reveal">Writing the prompt is the easy 5%. The real work is the structure that lets you walk away while it runs. Every good loop has the same four parts — and most people write 1 and 4 and skip 2 and 3, the two that actually let it run unattended.</p>
         <div class="parts reveal">
           <div class="part">
-            <div class="k">01</div>
-            <h3>Trigger</h3>
-            <p>What wakes the loop, and how cheap that wake-up is. Prefer the cheapest trigger that still catches the event — a condition beats a tight timer that mostly finds nothing.</p>
-          </div>
-          <div class="part">
-            <div class="k">02</div>
-            <h3>File structure &amp; contract</h3>
-            <p>Where the goal, the memory, and the outputs live. The single most important decision — a loop is only as good as the state it can read back.</p>
-          </div>
-          <div class="part">
-            <div class="k">03</div>
-            <h3>Tools &amp; connectors</h3>
-            <p>What it's actually allowed to touch, as explicit allow/deny rules for files, commands, and connectors — never a vague "be careful."</p>
+            <div class="k">01 · Contract</div>
+            <h3>contract.md</h3>
+            <p>One file the agent re-reads every run: the goal, the boundary fence (ship it yourself vs. ask a human), and the SOP. The fence is what decides whether you can walk away.</p>
           </div>
           <div class="part skip">
-            <div class="tag">Everyone skips</div>
-            <div class="k">04</div>
-            <h3>Self-verifying workspace</h3>
-            <p>Objective gates — tests, linters, required files, exact-count checks — that let the loop grade its own output. Without this it can never run unwatched.</p>
+            <div class="tag">Most skip</div>
+            <div class="k">02 · State + logs</div>
+            <h3>state.md</h3>
+            <p>Durable memory across runs — working hypotheses, "skip / known-noise" lists, a dated log — so it never re-does work and every lesson sticks. Month three is smarter than week one.</p>
+          </div>
+          <div class="part skip">
+            <div class="tag">Most skip</div>
+            <div class="k">03 · Verifier</div>
+            <h3>proof → PR</h3>
+            <p>Work loops fail → fix → work → verify until there's evidence a human can glance at — a passing test, an exact-count match, a screenshot. No proof, not done.</p>
+          </div>
+          <div class="part">
+            <div class="k">04 · Trigger</div>
+            <h3>cheapest that fits</h3>
+            <p>A push toward a goal, a cron schedule, or an event gate — so empty runs cost nothing. A tight timer that mostly finds nothing is the expensive choice.</p>
           </div>
         </div>
       </div>
@@ -299,25 +300,25 @@
     <section class="section" style="padding: 8px 0 0;">
       <div class="wrap">
         <div class="sub-head reveal"><span class="n">03</span><h2>Serious loops split into three roles</h2></div>
-        <p class="lead-two reveal">A trivial loop does everything in one pass. A serious one separates three roles so no single step gets to mark its own homework as correct.</p>
+        <p class="lead-two reveal">A simple loop is one agent doing the whole job. Once a loop ships real work to real people it splits: one agent finds the work, one does it in an isolated lane, one proves it. You approve <strong>evidence, not diffs</strong>.</p>
         <div class="roles reveal">
           <div class="role-card">
-            <div class="rk">Plan</div>
+            <div class="rk">Find</div>
             <h3>Orchestrator</h3>
-            <p>Reads the memory and the contract, decides what <em>this</em> run should do, and dispatches it. Usually cheap.</p>
+            <p>Wakes on the trigger and finds the task: reads what changed — errors, inbox, metrics, PRs — picks the single most worthwhile thing this run, and dispatches it. It never does the work itself.</p>
           </div>
           <div class="role-card">
-            <div class="rk">Act</div>
-            <h3>Worker</h3>
-            <p>Performs the one bounded action in scope. It does the work — it does not get to decide whether the work is good.</p>
+            <div class="rk">Do</div>
+            <h3>Executor</h3>
+            <p>Does the work in an isolated box — a fresh git worktree per task — so lanes never touch your checkout or each other. It can loop fail → fix, but can't declare success.</p>
           </div>
           <div class="role-card">
-            <div class="rk">Check</div>
-            <h3>Evaluator</h3>
-            <p>Independently verifies the output against the checklist and writes the lesson into memory. Never the same step that produced the output.</p>
+            <div class="rk">Prove</div>
+            <h3>Verifier</h3>
+            <p>Independently proves each result and attaches the evidence — a screenshot, a video, a fact-check, a passing test. That proof is what you review, in seconds.</p>
           </div>
         </div>
-        <p class="role-flow reveal"><b>Orchestrator</b> plans → <b>Worker</b> acts → <b>Evaluator</b> checks &amp; remembers → repeat</p>
+        <p class="role-flow reveal"><b>Orchestrator</b> finds → <b>Executor</b> does it in a lane → <b>Verifier</b> proves it → you approve the evidence → repeat</p>
       </div>
     </section>
 
@@ -342,17 +343,17 @@
 
     <section class="section" style="padding: 8px 0 0;">
       <div class="wrap">
-        <div class="sub-head reveal"><span class="n">05</span><h2>Evolve, or stay as dumb as day one</h2></div>
+        <div class="sub-head reveal"><span class="n">05</span><h2>Evolve, or the loop stays as dumb as day one</h2></div>
         <div class="evolve reveal">
           <div class="box">
-            <h3>Every run compiles a cheaper, smarter next run</h3>
-            <p>Treat each run as compiling assets for the next: <b>cached facts</b> so it doesn't re-derive them, <b>reusable scripts</b> so mechanical work runs deterministically and for free, a sharper "do not repeat" list, and a tighter contract.</p>
-            <p>Push the boring, certain part into a deterministic pre-stage and reserve the expensive model for the genuinely hard, judgment-heavy part. A loop that gets <b>more</b> expensive per run is overdue for evolution.</p>
+            <h3>A periodic pass that rewrites the loop itself</h3>
+            <p>Fragile systems break on a bad run. Robust ones survive it. An <b>antifragile</b> loop gets stronger from it: an evolve pass reads the last dozen runs and asks where money was wasted, which boundary is too loose, and which mistake keeps repeating.</p>
+            <p>Its output isn't product work — it's changes to the loop: a tighter contract, a cheaper trigger, mechanical steps folded into scripts and skills. A loop that improves the loop. It's verified like any run and may only <b>tighten</b> scope — loosening always needs a human.</p>
           </div>
           <div class="box">
-            <h3>A periodic pass that rewrites the loop itself</h3>
-            <p>Every N runs, run an evolution pass instead of a normal run: tighten anything ambiguous, make the trigger cheaper, fold repeated steps into scripts, prune dead instructions, and promote hard-won facts into MEMORY.md.</p>
-            <p>Two hard rules: the evolution pass is <b>verified like any other run</b>, and it may only <b>tighten</b> the safety boundary automatically — loosening scope or raising the permission level always needs a human.</p>
+            <h3>Every run compiles a cheaper, smarter next run</h3>
+            <p>The payoff shows up on the bill and in the work. Each pass folds what the loop learned into scripts and a tighter contract, so the next run reasons less, misses less, and costs less.</p>
+            <p><b>Born agentic</b>, it learns the pattern, then <b>graduates to a cheap script</b> for the part that's now certain — and the model only wakes back up when a tripwire trips or something genuinely surprising happens.</p>
           </div>
         </div>
       </div>
