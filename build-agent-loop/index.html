@@ -35,7 +35,29 @@
     .ladder { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
     .ladder li { display: flex; gap: 12px; align-items: baseline; padding: 10px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--muted); }
     .ladder li b { color: var(--text); font-family: var(--mono); font-size: 13px; flex: 0 0 auto; }
-    @media (max-width: 720px) { .steps { grid-template-columns: 1fr; } }
+    .lead-two { color: var(--muted); max-width: 68ch; margin: -6px 0 22px; }
+    .parts { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(232px, 1fr)); }
+    .part { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 18px 16px; position: relative; }
+    .part .k { font-family: var(--mono); font-size: 12px; color: var(--accent); font-weight: 700; }
+    .part h3 { margin: 8px 0 6px; font-size: 1.02rem; }
+    .part p { margin: 0; color: var(--muted); font-size: .9rem; }
+    .part.skip { border-color: color-mix(in srgb, var(--accent-2) 40%, var(--border)); }
+    .part .tag { position: absolute; top: 14px; right: 14px; font-size: .58rem; letter-spacing: .06em; text-transform: uppercase; color: var(--accent-2); border: 1px solid color-mix(in srgb, var(--accent-2) 35%, var(--border)); border-radius: 999px; padding: 2px 8px; font-weight: 700; }
+    .roles { display: grid; gap: 16px; grid-template-columns: repeat(3, 1fr); }
+    .role-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; }
+    .role-card .rk { font-family: var(--mono); font-size: 12px; color: var(--accent-2); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+    .role-card h3 { margin: 8px 0 6px; font-size: 1.02rem; }
+    .role-card p { margin: 0; color: var(--muted); font-size: .9rem; }
+    .role-flow { font-family: var(--mono); font-size: .8rem; color: var(--muted); margin: 16px 0 0; }
+    .role-flow b { color: var(--accent); }
+    .two-col { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
+    .two-col .box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+    .two-col .box .mf { font-family: var(--mono); font-size: 12.5px; color: var(--accent); font-weight: 700; }
+    .two-col .box h3 { margin: 7px 0 8px; font-size: 1.05rem; }
+    .two-col .box p { margin: 0 0 10px; color: var(--muted); font-size: .92rem; }
+    .two-col .box p:last-child { margin: 0; }
+    .two-col .box b { color: var(--text); }
+    @media (max-width: 720px) { .steps { grid-template-columns: 1fr; } .roles { grid-template-columns: 1fr; } .two-col { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -68,16 +90,17 @@
         <h1>Build Agent Loop</h1>
         <p class="lede">
           A skill that helps Claude turn a recurring manual check into a safe, repeatable
-          <strong>loop</strong> — it reads context, takes one bounded action, verifies its own
-          output, remembers what happened, and knows when to stop, retry, or ask a human.
-          Ships with 13 role-based patterns, every one <strong>draft-first</strong> by default.
+          <strong>loop</strong> — it reads the memory of prior runs, takes one bounded action, verifies its own
+          output, <strong>carries what it learned forward</strong>, and knows when to stop, retry, or ask a human.
+          Every run compiles a cheaper, smarter next one. Ships with 13 role-based patterns, every one
+          <strong>draft-first</strong> by default.
         </p>
         <div class="dl-row">
           <a class="btn btn-primary" href="build-agent-loop.skill" download>⬇ Download the .skill</a>
           <a class="btn btn-ghost" href="showcase.html">See the 13 use cases →</a>
           <a class="btn btn-ghost" href="../blog/taught-claude-to-stop-repeating.html">Read the story →</a>
         </div>
-        <p class="dl-note">build-agent-loop.skill · ~16&nbsp;KB · installs into your own Claude account</p>
+        <p class="dl-note">build-agent-loop.skill · ~21&nbsp;KB · installs into your own Claude account</p>
       </div>
     </section>
 
@@ -110,13 +133,15 @@
               <span class="chip">Context</span>
               <span class="chip">Bounded action</span>
               <span class="chip">Self-verify</span>
-              <span class="chip">Saved state</span>
+              <span class="chip">Durable memory</span>
+              <span class="chip">Evolution pass</span>
               <span class="chip">Human gate</span>
             </div>
             <h3 class="mt">Safe by default</h3>
             <ul class="focus-list">
               <li>Read &amp; draft — never send</li>
               <li>Explicit pass/fail checks</li>
+              <li>Carries memory forward, not authority</li>
               <li>Escalates instead of guessing</li>
             </ul>
           </aside>
@@ -124,10 +149,89 @@
       </div>
     </section>
 
-    <!-- INSTALL -->
+    <!-- FOUR PARTS -->
     <section class="section section-alt">
       <div class="wrap">
-        <div class="section-head reveal"><span class="section-num">02</span><h2>Install in 3 steps</h2></div>
+        <div class="section-head reveal"><span class="section-num">02</span><h2>The four parts of a good loop</h2></div>
+        <p class="lead-two reveal">Designing a loop is really four choices. Most people nail the first three and skip the fourth — the one that decides whether the loop can ever run unattended.</p>
+        <div class="parts reveal">
+          <div class="part">
+            <div class="k">01</div>
+            <h3>Trigger</h3>
+            <p>What wakes the loop, and how cheap that wake-up is. Prefer the cheapest trigger that still catches the event.</p>
+          </div>
+          <div class="part">
+            <div class="k">02</div>
+            <h3>File structure &amp; contract</h3>
+            <p>Where the goal, the memory, and the outputs live. The single most important decision — a loop is only as good as the state it can read back.</p>
+          </div>
+          <div class="part">
+            <div class="k">03</div>
+            <h3>Tools &amp; connectors</h3>
+            <p>What it's allowed to touch, as explicit allow/deny rules for files, commands, and connectors — never a vague "be careful."</p>
+          </div>
+          <div class="part skip">
+            <div class="tag">Everyone skips</div>
+            <div class="k">04</div>
+            <h3>Self-verifying workspace</h3>
+            <p>Objective gates — tests, linters, required files, exact-count checks — that let the loop grade its own output.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- THREE ROLES -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head reveal"><span class="section-num">03</span><h2>Serious loops split into three roles</h2></div>
+        <p class="lead-two reveal">A trivial loop does everything in one pass. A serious one separates three roles so no single step gets to mark its own homework as correct.</p>
+        <div class="roles reveal">
+          <div class="role-card">
+            <div class="rk">Plan</div>
+            <h3>Orchestrator</h3>
+            <p>Reads the memory and the contract, decides what <em>this</em> run should do, and dispatches it. Usually cheap.</p>
+          </div>
+          <div class="role-card">
+            <div class="rk">Act</div>
+            <h3>Worker</h3>
+            <p>Performs the one bounded action in scope. It does the work — it does not get to decide whether the work is good.</p>
+          </div>
+          <div class="role-card">
+            <div class="rk">Check</div>
+            <h3>Evaluator</h3>
+            <p>Independently verifies the output against the checklist and writes the lesson into memory. Never the same step that produced the output.</p>
+          </div>
+        </div>
+        <p class="role-flow reveal"><b>Orchestrator</b> plans → <b>Worker</b> acts → <b>Evaluator</b> checks &amp; remembers → repeat</p>
+      </div>
+    </section>
+
+    <!-- MEMORY + EVOLUTION -->
+    <section class="section section-alt">
+      <div class="wrap">
+        <div class="section-head reveal"><span class="section-num">04</span><h2>Memory that compounds, a loop that evolves</h2></div>
+        <p class="lead-two reveal">The difference between a loop and a prompt on a timer is that a loop remembers — and gets better on purpose instead of staying as dumb as day one.</p>
+        <div class="two-col reveal">
+          <div class="box">
+            <div class="mf">PROGRESS.md&nbsp;+&nbsp;MEMORY.md</div>
+            <h3>Carry the context forward</h3>
+            <p><b>PROGRESS.md</b> is short-term working memory: status, last run, open items, and a "do not repeat" list. <b>MEMORY.md</b> is long-term distilled memory: durable decisions, cached facts, reusable snippets, and the evolution log.</p>
+            <p>Every run reads both before acting and writes both before stopping. That's the one thing that separates a loop from re-typing a prompt.</p>
+          </div>
+          <div class="box">
+            <div class="mf">The evolution pass</div>
+            <h3>Every run compiles a cheaper next run</h3>
+            <p>Each run leaves behind cached facts and reusable scripts, so mechanical work runs deterministically and for free and the model is saved for the genuinely hard part.</p>
+            <p>Every N runs a self-improvement pass rewrites the loop itself — tighter contract, cheaper trigger, dead instructions pruned. It's verified like any run, and it may only <b>tighten</b> the safety boundary; loosening always needs a human.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INSTALL -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head reveal"><span class="section-num">05</span><h2>Install in 3 steps</h2></div>
         <div class="steps">
           <div class="step reveal">
             <div class="n">1</div>
@@ -149,9 +253,9 @@
     </section>
 
     <!-- THE LADDER -->
-    <section class="section">
+    <section class="section section-alt">
       <div class="wrap">
-        <div class="section-head reveal"><span class="section-num">03</span><h2>The permission ladder</h2></div>
+        <div class="section-head reveal"><span class="section-num">06</span><h2>The permission ladder</h2></div>
         <p class="section-intro reveal">Loops start at the bottom and only move up after the current level has run reliably. Nothing sensitive happens without a human clicking the button.</p>
         <ul class="ladder reveal">
           <li><b>L1</b> Read-only analysis</li>
@@ -165,7 +269,7 @@
     </section>
 
     <!-- CTA -->
-    <section class="section section-alt">
+    <section class="section">
       <div class="wrap contact reveal" style="text-align:center;">
         <div class="section-head reveal" style="justify-content:center;"><h2>Try it on one recurring check</h2></div>
         <p class="contact-lede" style="margin-left:auto;margin-right:auto;">

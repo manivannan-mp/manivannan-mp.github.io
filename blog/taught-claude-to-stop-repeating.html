@@ -111,12 +111,52 @@
         <p>Under the hood every loop is the same six-beat cycle, and it never self-certifies with "looks done":</p>
         <ul>
           <li><strong>Trigger</strong> — a timer, an event, or a <code>/loop</code> command starts a run.</li>
-          <li><strong>Context</strong> — Claude reads a stable <code>TASK.md</code> and its own <code>PROGRESS.md</code> memory.</li>
+          <li><strong>Context</strong> — Claude reads a stable <code>TASK.md</code> and its own <code>PROGRESS.md</code> and <code>MEMORY.md</code>.</li>
           <li><strong>Action</strong> — it takes one constrained, in-scope step.</li>
           <li><strong>Verify</strong> — it runs a concrete pass/fail checklist, not a vibe.</li>
-          <li><strong>State</strong> — it writes what happened back to <code>PROGRESS.md</code>.</li>
+          <li><strong>State</strong> — it writes what happened, and what it learned, back to memory.</li>
           <li><strong>Decide</strong> — stop, retry once, or escalate to a human.</li>
         </ul>
+
+        <h2>The four parts — and the one everyone skips</h2>
+        <p>
+          When you design a loop you're really making four choices, and I learned the hard way that
+          they're not equally weighted. The <strong>trigger</strong> (what wakes it), the
+          <strong>file structure</strong> (where the goal, memory, and outputs live), and the
+          <strong>tools</strong> (what it's allowed to touch) are the obvious three. The fourth is a
+          <strong>self-verifying workspace</strong> — objective gates like tests, required files, or
+          exact-count checks that let the loop grade its own output. Most people skip it, and it's the
+          exact thing that decides whether a loop can ever run when you're not watching. No self-check,
+          no unattended loop. It's that simple.
+        </p>
+
+        <h2>Three roles, so nothing grades its own homework</h2>
+        <p>
+          A throwaway loop can do everything in one pass. A serious one splits into three roles: an
+          <strong>Orchestrator</strong> that reads the memory and decides what this run should do, a
+          <strong>Worker</strong> that does the one bounded action, and an <strong>Evaluator</strong>
+          that independently checks the result and writes down the lesson. The trick is keeping the
+          Worker and the Evaluator apart — the thing that did the work doesn't get to be the thing that
+          says the work is good. That one separation is what stops a loop from confidently drifting
+          off course.
+        </p>
+
+        <h2>It remembers — and it evolves</h2>
+        <p>
+          Here's the part that turns a scheduled prompt into something that actually compounds: the loop
+          <strong>carries its memory forward</strong>. <code>PROGRESS.md</code> holds the short-term
+          working state; <code>MEMORY.md</code> holds the durable stuff — decisions and why they were
+          made, facts worth caching, and a running evolution log. Every run reads both before it acts and
+          writes both before it stops. A loop that forgets is just a prompt you retype.
+        </p>
+        <p>
+          And left alone, a loop stays exactly as clumsy on run #100 as it was on day one. So the skill
+          builds in an <strong>evolution pass</strong>: every so often, instead of doing the task, Claude
+          rewrites the loop — tightening a vague instruction, folding a repeated manual step into a script
+          so it runs for free next time, promoting a hard-won fact into long-term memory. Every run should
+          compile a cheaper, smarter next run. The one rule: evolution can only <em>tighten</em> the
+          safety boundary on its own — loosening scope always needs a human.
+        </p>
 
         <h2>Install it in under a minute</h2>
         <ol>
