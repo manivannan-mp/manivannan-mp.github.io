@@ -338,14 +338,7 @@ export default function Home() {
                 Open to interesting problems, collaborations, and conversations
                 about AI &amp; product. The fastest way to reach me:
               </p>
-              <div className="contact-links">
-                <a className="contact-link" href="mailto:mmvmaniit@gmail.com">
-                  <span className="ci">✉️</span>
-                  <span>
-                    <strong>Email</strong>
-                    <small>mmvmaniit@gmail.com</small>
-                  </span>
-                </a>
+              <div className="contact-links">               
                 <a
                   className="contact-link"
                   href="https://www.linkedin.com/in/mani-minilabz/"
