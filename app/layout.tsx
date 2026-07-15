@@ -30,6 +30,15 @@ export const metadata: Metadata = {
   icons: {
     icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%A1%3C/text%3E%3C/svg%3E",
   },
+  openGraph: {
+    type: 'website',
+    title:
+      'ManiVannan Murugesan — CTO & Director · Founder & Full-Stack Builder',
+    description:
+      'CTO & Director at AllActivity, building AI-powered SaaS products — and founder of MiniLabz. Full-stack engineer & writer, based in Finland.',
+    url: SITE_URL,
+  },
+  twitter: { card: 'summary' },
 };
 
 export default function RootLayout({
