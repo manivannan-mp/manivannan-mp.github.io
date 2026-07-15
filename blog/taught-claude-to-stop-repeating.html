@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>I taught Claude to stop making me repeat myself — ManiVannan Murugesan</title>
+  <meta name="description" content="Most of us use Claude for one-off tasks. Here's the second pattern that gives hours back every week — repeatable agent loops — and a free Claude skill to build them safely." />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="I taught Claude to stop making me repeat myself" />
+  <meta property="og:description" content="Turn recurring manual checks into safe, repeatable Claude loops. A free .skill you can install today." />
+  <meta property="og:url" content="https://manivannan-mp.github.io/blog/taught-claude-to-stop-repeating.html" />
+  <meta name="twitter:card" content="summary" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="../assets/css/post.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%A1%3C/text%3E%3C/svg%3E" />
+  <script>document.documentElement.classList.add('js');</script>
+  <style>
+    .cta-box {
+      margin: 32px 0; padding: 24px; border: 1px solid var(--border);
+      border-radius: var(--radius); background: var(--accent-soft);
+    }
+    .cta-box h3 { margin: 0 0 8px; font-size: 1.15rem; }
+    .cta-box p { margin: 0 0 16px; color: var(--muted); }
+    .cta-box .dl-row { display: flex; flex-wrap: wrap; gap: 12px; }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a href="../" class="brand">
+        <span class="brand-mark">MM</span>
+        <span class="brand-name">ManiVannan</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="../#about">About</a>
+        <a href="../#projects">Projects</a>
+        <a href="index.html">Writing</a>
+        <a href="../#contact">Contact</a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle color theme">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <article class="post wrap">
+      <p class="post-back"><a class="link" href="index.html">← All writing</a></p>
+
+      <header class="post-header">
+        <time datetime="2026-07-15">July 15, 2026</time>
+        <h1>I taught Claude to stop making me repeat myself — and it gave me my evenings back</h1>
+        <p class="post-sub">Most of us use Claude for one-off tasks. There's a second pattern that quietly eats hours every week — and a small skill that fixes it.</p>
+      </header>
+
+      <div class="post-body">
+        <p>
+          Draft this, review that, summarize this. That's how most of us use Claude day to day —
+          one-off tasks, one at a time. But there's a second pattern that quietly eats hours every
+          week: the <strong>recurring check</strong>. The daily pipeline scan. The weekly progress
+          report. The nightly log review. Work that isn't hard, just relentless.
+        </p>
+
+        <p>
+          I built a Claude Code skill called <strong>build-agent-loop</strong> to fix that. A "loop"
+          is a small, repeatable workflow: something triggers Claude, it reads the current state,
+          does one bounded action, checks its own work, saves what it learned, and either stops,
+          retries, or flags a human. It's the difference between re-explaining a task every single
+          day and setting it up <em>once</em>, correctly, with real guardrails.
+        </p>
+
+        <div class="cta-box">
+          <h3>⚡ Get the skill</h3>
+          <p>Free to download and install into your own Claude account. 13 ready-to-use patterns inside.</p>
+          <div class="dl-row">
+            <a class="btn btn-primary" href="../build-agent-loop/build-agent-loop.skill" download>⬇ Download the .skill</a>
+            <a class="btn btn-ghost" href="../build-agent-loop/">See the skill &amp; use cases →</a>
+          </div>
+        </div>
+
+        <h2>13 patterns, one safe default</h2>
+        <p>
+          The skill ships with 13 ready-to-use loop patterns across different roles — engineering,
+          DevOps, product, data, QA, security, support, marketing, HR, finance, legal, sales, and
+          education — each with a copy-paste starter prompt. Every single one defaults to a low
+          permission level: <strong>read, compare, draft, and flag for a human</strong>. None of them
+          send an email, approve an expense, sign a contract, or touch a grade without a person
+          clicking the button.
+        </p>
+
+        <p>
+          That constraint is the whole point. The goal was never to give Claude more authority — it
+          was to take the boring, repetitive middle of a task off my plate so I get the time back. If
+          a loop is doing its job, it should feel like reclaiming twenty minutes every morning, not
+          like handing over control.
+        </p>
+
+        <blockquote>
+          Pick one recurring check you do manually, hand it to a loop, and see what you get back.
+        </blockquote>
+
+        <h2>How a loop actually works</h2>
+        <p>Under the hood every loop is the same six-beat cycle, and it never self-certifies with "looks done":</p>
+        <ul>
+          <li><strong>Trigger</strong> — a timer, an event, or a <code>/loop</code> command starts a run.</li>
+          <li><strong>Context</strong> — Claude reads a stable <code>TASK.md</code> and its own <code>PROGRESS.md</code> memory.</li>
+          <li><strong>Action</strong> — it takes one constrained, in-scope step.</li>
+          <li><strong>Verify</strong> — it runs a concrete pass/fail checklist, not a vibe.</li>
+          <li><strong>State</strong> — it writes what happened back to <code>PROGRESS.md</code>.</li>
+          <li><strong>Decide</strong> — stop, retry once, or escalate to a human.</li>
+        </ul>
+
+        <h2>Install it in under a minute</h2>
+        <ol>
+          <li>Download <code>build-agent-loop.skill</code> from the button above.</li>
+          <li>In claude.ai, go to <code>Settings → Capabilities → Skills → Add → Upload a skill</code>.</li>
+          <li>Ask Claude to <em>"set up a loop that…"</em>, or copy one of the 13 starter prompts.</li>
+        </ol>
+
+        <p>
+          If you're already using Claude day to day, this is worth trying. Start with a single
+          recurring task, keep the permission level low, and let it earn trust one run at a time.
+        </p>
+      </div>
+
+      <footer class="post-footer">
+        <p>Thanks for reading. If you build a loop with it, I'd love to hear what you automated — find me on
+          <a class="link" href="https://www.linkedin.com/in/mani-minilabz/" target="_blank" rel="noopener">LinkedIn</a> and
+          <a class="link" href="https://github.com/manivannan-mp" target="_blank" rel="noopener">GitHub</a>.
+        </p>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <p>© <span id="year">2026</span> ManiVannan Murugesan · Built with care in Finland 🇫🇮</p>
+      <a href="../#top" class="to-top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

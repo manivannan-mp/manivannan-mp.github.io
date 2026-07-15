@@ -8,15 +8,26 @@ AI-powered SaaS products from Finland.
 ## Structure
 
 ```
-index.html            # Home: hero, about, projects, writing, contact
+index.html                 # Home: hero, about, projects, writing, contact
 blog/
-  index.html          # Writing index (list of articles)
-  example-post.html   # Copy this to start a new article
+  index.html               # Writing index (list of articles)
+  taught-claude-to-stop-repeating.html  # First article
+  example-post.html        # Copy this to start a new article
+build-agent-loop/          # Public Claude skill hub
+  index.html               # Landing page (what it is + install)
+  showcase.html            # 13 role-based use cases
+  build-agent-loop.skill   # Downloadable skill file (zip)
 assets/
-  css/style.css       # Site styles (auto light/dark + manual toggle)
-  css/post.css        # Long-form article styles
-  js/main.js          # Theme toggle, scroll reveal, footer year
+  css/style.css            # Site styles (auto light/dark + manual toggle)
+  css/post.css             # Long-form article styles
+  js/main.js               # Theme toggle, scroll reveal, footer year
 ```
+
+## The build-agent-loop skill
+
+Public download hub: https://manivannan-mp.github.io/build-agent-loop/
+The `.skill` file is a zip; to update it, re-export from claude.ai and replace
+`build-agent-loop/build-agent-loop.skill`.
 
 ## Publishing a new article
 

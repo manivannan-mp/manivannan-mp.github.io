@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Loops — 13 Role-Based Use Cases</title>
+<style>
+  :root{
+    --bg:#0d1117;
+    --panel:#151b23;
+    --panel-2:#1b2430;
+    --line:#2a3441;
+    --ink:#e6edf3;
+    --muted:#8b98a5;
+    --accent:#7ee2c4;
+    --accent-2:#6aa8ff;
+    --warn:#f2c078;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:radial-gradient(1200px 600px at 50% -10%, #17222e 0%, var(--bg) 60%);
+    color:var(--ink);
+    font:16px/1.55 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    padding:48px 24px 96px;
+  }
+  .wrap{max-width:1180px;margin:0 auto;}
+  header{text-align:center;margin-bottom:40px;}
+  h1{font-size:2.1rem;margin:0 0 10px;letter-spacing:-0.5px;}
+  .sub{color:var(--muted);max-width:720px;margin:0 auto;}
+  .sub b{color:var(--accent);font-weight:600;}
+  h2{font-size:1.2rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+     margin:56px 0 18px;border-bottom:1px solid var(--line);padding-bottom:10px;}
+
+  /* ---- loop diagram ---- */
+  .diagram{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px;margin-top:8px;
+  }
+  .diagram svg{width:100%;height:auto;display:block;}
+  .node-box{fill:var(--panel-2);stroke:var(--line);stroke-width:1.5;}
+  .node-label{fill:var(--ink);font-size:14px;font-weight:600;text-anchor:middle;
+              font-family:inherit;}
+  .node-sub{fill:var(--muted);font-size:10.5px;text-anchor:middle;font-family:inherit;}
+  .ring{fill:none;stroke:var(--line);stroke-width:2;stroke-dasharray:6 7;}
+  .ring-spin{transform-origin:400px 235px;animation:spin 30s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .pulse{fill:var(--accent);}
+  .human-gate{fill:none;stroke:var(--warn);stroke-width:1.6;stroke-dasharray:4 4;}
+  .gate-label{fill:var(--warn);font-size:11px;text-anchor:middle;font-family:inherit;}
+  .arrow{stroke:var(--accent-2);stroke-width:1.8;fill:none;opacity:.55;}
+  @media (prefers-reduced-motion: reduce){
+    .ring-spin,.pulse animateMotion,.glow{animation:none;}
+  }
+
+  /* ---- cards ---- */
+  .grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));}
+  .card{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px 18px 16px;display:flex;flex-direction:column;
+    transition:border-color .18s ease, transform .18s ease;
+  }
+  .card:hover{border-color:var(--accent-2);transform:translateY(-2px);}
+  .card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
+  .role{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);font-weight:700;}
+  .title{font-size:1.02rem;font-weight:650;margin:4px 0 12px;}
+  .perm{
+    flex:none;font-size:.68rem;font-weight:700;letter-spacing:.04em;
+    border:1px solid var(--line);border-radius:999px;padding:3px 9px;
+    color:var(--warn);background:#231d12;white-space:nowrap;
+  }
+  dl{margin:0 0 14px;display:grid;grid-template-columns:auto 1fr;gap:5px 10px;font-size:.86rem;}
+  dt{color:var(--muted);font-weight:600;}
+  dd{margin:0;color:var(--ink);}
+  dd.verify{color:var(--warn);}
+  .prompt-wrap{margin-top:auto;border-top:1px solid var(--line);padding-top:12px;}
+  .prompt-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;}
+  .prompt-head span{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;}
+  button.copy{
+    background:var(--panel-2);color:var(--accent);border:1px solid var(--line);
+    border-radius:8px;padding:4px 11px;font:inherit;font-size:.75rem;font-weight:600;cursor:pointer;
+  }
+  button.copy:hover{border-color:var(--accent);}
+  button.copy.done{color:var(--bg);background:var(--accent);border-color:var(--accent);}
+  pre{
+    margin:0;background:#0b0f14;border:1px solid var(--line);border-radius:10px;
+    padding:11px 12px;font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    color:#c9d6e2;white-space:pre-wrap;word-break:break-word;max-height:150px;overflow:auto;
+  }
+  footer{
+    margin-top:56px;background:var(--panel);border:1px solid var(--line);
+    border-left:3px solid var(--warn);border-radius:var(--radius);padding:18px 20px;
+    color:var(--muted);font-size:.9rem;
+  }
+  footer b{color:var(--ink);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:28px;">
+  <a href="index.html" style="color:var(--accent);text-decoration:none;font-weight:600;font-size:.9rem;">← Build Agent Loop</a>
+  <a href="build-agent-loop.skill" download style="background:var(--accent);color:var(--bg);text-decoration:none;font-weight:700;font-size:.82rem;padding:7px 14px;border-radius:8px;">⬇ Download the .skill</a>
+</nav>
+
+<header>
+  <h1>Agent Loops: 13 Role-Based Use Cases</h1>
+  <p class="sub">A loop is a repeatable workflow wrapped around Claude: something triggers a run, Claude reads context,
+  takes a <b>constrained</b> action, checks its own output, saves state, and decides whether to stop, retry, or
+  escalate to a human. Every loop below starts <b>read-only or draft-only</b> — the human keeps the click that matters.</p>
+</header>
+
+<h2>The loop cycle</h2>
+<div class="diagram">
+<svg viewBox="0 0 800 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Animated diagram of the loop cycle: Trigger, Context, Action, Verify, State, Decide">
+  <defs>
+    <path id="cycle" d="M 400 85 A 150 150 0 0 1 400 385 A 150 150 0 0 1 400 85"/>
+    <radialGradient id="glow">
+      <stop offset="0%" stop-color="#7ee2c4" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#7ee2c4" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- rotating dashed ring -->
+  <circle class="ring ring-spin" cx="400" cy="235" r="150"/>
+  <!-- direction arrows on the ring -->
+  <path class="arrow" d="M 545 200 l 10 12 l 12 -9" />
+  <path class="arrow" d="M 250 270 l -10 -12 l -12 9" />
+
+  <!-- travelling pulse -->
+  <circle r="16" fill="url(#glow)">
+    <animateMotion dur="9s" repeatCount="indefinite" rotate="auto">
+      <mpath href="#cycle"/>
+    </animateMotion>
+  </circle>
+  <circle class="pulse" r="5">
+    <animateMotion dur="9s" repeatCount="indefinite">
+      <mpath href="#cycle"/>
+    </animateMotion>
+  </circle>
+
+  <!-- centre -->
+  <text x="400" y="228" class="node-label" style="font-size:15px;">One run</text>
+  <text x="400" y="248" class="node-sub">state carries into the next</text>
+
+  <!-- 1. TRIGGER (top) -->
+  <g>
+    <rect class="node-box" x="330" y="55" width="140" height="56" rx="10">
+      <animate attributeName="stroke" values="#2a3441;#7ee2c4;#2a3441" dur="9s" begin="0s" repeatCount="indefinite"/>
+    </rect>
+    <text x="400" y="80" class="node-label">1 · Trigger</text>
+    <text x="400" y="97" class="node-sub">timer, event, /loop</text>
+  </g>
+
+  <!-- 2. CONTEXT (upper right) -->
+  <g>
+    <rect class="node-box" x="565" y="140" width="140" height="56" rx="10">
+      <animate attributeName="stroke" values="#2a3441;#7ee2c4;#2a3441" dur="9s" begin="1.5s" repeatCount="indefinite"/>
+    </rect>
+    <text x="635" y="165" class="node-label">2 · Context</text>
+    <text x="635" y="182" class="node-sub">TASK + PROGRESS</text>
+  </g>
+
+  <!-- 3. ACTION (lower right) -->
+  <g>
+    <rect class="node-box" x="565" y="275" width="140" height="56" rx="10">
+      <animate attributeName="stroke" values="#2a3441;#7ee2c4;#2a3441" dur="9s" begin="3s" repeatCount="indefinite"/>
+    </rect>
+    <text x="635" y="300" class="node-label">3 · Action</text>
+    <text x="635" y="317" class="node-sub">constrained, in scope</text>
+  </g>
+
+  <!-- 4. VERIFY (bottom) -->
+  <g>
+    <rect class="node-box" x="330" y="360" width="140" height="56" rx="10">
+      <animate attributeName="stroke" values="#2a3441;#7ee2c4;#2a3441" dur="9s" begin="4.5s" repeatCount="indefinite"/>
+    </rect>
+    <text x="400" y="385" class="node-label">4 · Verify</text>
+    <text x="400" y="402" class="node-sub">pass/fail checklist</text>
+  </g>
+
+  <!-- 5. STATE (lower left) -->
+  <g>
+    <rect class="node-box" x="95" y="275" width="140" height="56" rx="10">
+      <animate attributeName="stroke" values="#2a3441;#7ee2c4;#2a3441" dur="9s" begin="6s" repeatCount="indefinite"/>
+    </rect>
+    <text x="165" y="300" class="node-label">5 · State</text>
+    <text x="165" y="317" class="node-sub">write PROGRESS.md</text>
+  </g>
+
+  <!-- 6. DECIDE (upper left) -->
+  <g>
+    <rect class="node-box" x="95" y="140" width="140" height="56" rx="10">
+      <animate attributeName="stroke" values="#2a3441;#7ee2c4;#2a3441" dur="9s" begin="7.5s" repeatCount="indefinite"/>
+    </rect>
+    <text x="165" y="165" class="node-label">6 · Decide</text>
+    <text x="165" y="182" class="node-sub">stop · retry · escalate</text>
+  </g>
+
+  <!-- human gate -->
+  <g>
+    <rect class="human-gate" x="600" y="392" width="185" height="52" rx="10"/>
+    <text x="692" y="413" class="gate-label" style="font-weight:700;">Human review gate</text>
+    <text x="692" y="431" class="gate-label">anything sensitive or irreversible</text>
+    <path class="human-gate" d="M 470 388 H 600" />
+  </g>
+</svg>
+</div>
+
+<h2>Pick your loop</h2>
+<div class="grid" id="grid"></div>
+
+<footer>
+  <b>Before you schedule anything:</b> qualify the task (it repeats on a real cadence, success is objectively checkable,
+  and future runs benefit from memory), then run the loop by hand 3–5 times and watch what it touches. These are starting
+  templates, not proof a loop is ready to run unsupervised. Keep the permission level low, prefer draft-not-act, and never
+  hand a loop unsupervised authority over money, contracts, grades, live production systems, or messages sent on your behalf.
+</footer>
+
+</div>
+
+<script>
+const LOOPS = [
+  {
+    role: "Software Engineer",
+    title: "CI Failure Triage Loop",
+    trigger: "A CI pipeline run fails",
+    action: "Read failing logs, classify the failure type, identify the likely cause",
+    output: "outputs/ci-triage.md — diagnosis + suggested fix",
+    verify: "Never touches code; a human approves before any fix is applied",
+    perm: "Level 1–2",
+    prompt: "Set up a CI failure triage loop in this workspace. Scaffold TASK.md, PROGRESS.md, LOOP_INSTRUCTIONS.md and outputs/. On each run: read the latest failing CI logs, classify the failure type, identify the likely cause, and write a diagnosis plus a suggested fix to outputs/ci-triage.md. Then update PROGRESS.md and run the verification checklist. Do not modify source code, re-run pipelines, or apply any fix — draft only, I apply. Start at permission level 1-2 and let me run it manually a few times before we schedule it."
+  },
+  {
+    role: "DevOps / SRE",
+    title: "Deployment Health Check Loop",
+    trigger: "/loop 10m during a rollout",
+    action: "Check deployment and service health signals",
+    output: "Short \u201Chealthy\u201D note, or a detailed incident note if something failed",
+    verify: "Escalates to human review on the first failure signal — no silent retries",
+    perm: "Level 1",
+    prompt: "Set up a deployment health check loop for this rollout. Scaffold TASK.md, PROGRESS.md, LOOP_INSTRUCTIONS.md and outputs/. On each run: check the deployment and service health signals I point you at, and write outputs/deploy-health.md — a short 'healthy, no changes' note when everything is fine, or a detailed incident note if something failed. Update PROGRESS.md and run the verification checklist. On the first real failure signal, stop and mark the run as needing human review rather than retrying silently. Read-only: do not restart, roll back, scale, or modify any service. Permission level 1, manual runs first."
+  },
+  {
+    role: "Product Manager",
+    title: "Weekly Strategy Review Loop",
+    trigger: "/loop 7d",
+    action: "Review the strategy doc and related notes, list what changed, flag unresolved assumptions",
+    output: "outputs/strategy-review.md",
+    verify: "Never edits the strategy doc itself — produces a review note only",
+    perm: "Level 1–2",
+    prompt: "Set up a weekly strategy review loop for this workspace. Scaffold TASK.md, PROGRESS.md, LOOP_INSTRUCTIONS.md and outputs/. On each run: read the product strategy doc and related notes, list what changed since the last run, and flag unresolved assumptions and open decisions in outputs/strategy-review.md. Then update PROGRESS.md and run the verification checklist. Never edit the strategy doc or any source note — review notes only. Start at permission level 1-2 and let me run it manually before we schedule the weekly cadence."
+  },
+  {
+    role: "Data Analyst",
+    title: "Daily Metrics Anomaly Watch Loop",
+    trigger: "/loop 24h",
+    action: "Check key metrics for unusual movement versus recent history",
+    output: "outputs/metrics-watch.md — quiet note if nothing notable, flagged note if an anomaly appears",
+    verify: "Anomaly threshold must be explicit (e.g. >2 standard deviations), never \u201Clooks off\u201D",
+    perm: "Level 1",
+    prompt: "Set up a daily metrics anomaly watch loop. Scaffold TASK.md, PROGRESS.md, LOOP_INSTRUCTIONS.md and outputs/. On each run: check the key metrics I specify for unusual movement versus recent history, using an explicit numeric threshold (e.g. more than 2 standard deviations from the trailing 14-day mean) — never 'looks off'. Write outputs/metrics-watch.md: a short quiet note when nothing is notable, a flagged note when an anomaly appears. Update PROGRESS.md and run the verification checklist. Read-only: do not modify dashboards, queries, or data. Permission level 1, manual runs first."
+  },
+  {
+    role: "QA Engineer",
+    title: "Regression Test Triage Loop",
+    trigger: "The nightly test suite completes",
+    action: "Read test results, group failures by likely root cause, separate flaky tests from real regressions",
+    output: "outputs/test-triage.md",
+    verify: "Pass/fail counts must match the test runner\u2019s own report exactly",
+    perm: "Level 1–2",
+    prompt: "Set up a regression test triage loop that runs after the nightly suite. Scaffold TASK.md, PROGRESS.md, LOOP_INSTRUCTIONS.md and outputs/. On each run: read the latest test results, group failures by likely root cause, and separate flaky tests from real regressions in outputs/test-triage.md. Verification must include that your reported pass/fail counts match the test runner's own report exactly — if they don't, the run fails the checklist. Update PROGRESS.md each run. Do not modify tests or source code, and do not re-run or quarantine anything — triage only. Permission level 1-2, manual runs first."
+  },
+  {
+    role: "Security / Compliance",
+    title: "Dependency Vulnerability Scan Loop",
+    trigger: "/loop 24h, or on dependency file change",
+    action: "Review scan results for new vulnerabilities, prioritize by severity",
+    output: "outputs/vuln-review.md — drafted remediation suggestions",
+    verify: "Never auto-upgrades or patches a dependency; always human-approved",
+    perm: "Level 1–2",
+    prompt: "Set up a dependency vulnerability review loop. Scaffold TASK.md, PROGRESS.md, LOOP_INSTRUCTIONS.md and outputs/. On each run: review the latest scan results, identify vulnerabilities that are new since the last run, prioritize them by severity, and draft remediation suggestions in outputs/vuln-review.md. Update PROGRESS.md and run the verification checklist. Never upgrade, patch, or edit a dependency file, lockfile, or CI config — drafts only, a human approves and applies. Never read .env files, keys, or credentials. Permission level 1-2, manual runs first."
+  },
+  {
+    role: "Customer Support Lead",
+    title: "Ticket Triage & Escalation Loop",
+    trigger: "/loop 30m",
+    action: "Read new tickets, classify urgency, draft suggested responses for common issues",
+    output: "outputs/ticket-triage.md + draft replies in outputs/drafts/",
+    verify: "Never sends a reply automatically — a human sends after reviewing the draft",
+    perm: "Level 2",
+    prompt: "Set up a support ticket triage loop. Scaffold TASK.md, PROGRESS.md, LOOP_INSTRUCTIONS.md, outputs/ and outputs/drafts/. On each run: read tickets that are new since the last run, classify urgency, and write outputs/ticket-triage.md; for common issues, write suggested replies as separate files in outputs/drafts/. Update PROGRESS.md and run the verification checklist. Never send, reply to, close, merge, or reassign a ticket — drafts only, a human reviews and sends. Permission level 2, manual runs first."
+  },
+  {
+    role: "Marketing Manager",
+    title: "Campaign Performance Review Loop",
+    trigger: "/loop 7d",
+    action: "Review campaign metrics, compare to the prior period, note what\u2019s under/over-performing",
+    output: "outputs/campaign-review.md",
+    verify: "Only reads analytics/connector data — never edits live campaigns or budgets",
+    perm: "Level 1",
+    prompt: "Set up a weekly campaign performance review loop. Scaffold TASK.md, PROGRESS.md, LOOP_INSTRUCTIONS.md and outputs/. On each run: review the campaign metrics I point you at, compare them to the prior period, and note what is under- and over-performing with a short recommended next action in outputs/campaign-review.md. Update PROGRESS.md and run the verification checklist. Read-only: never edit, pause, launch, or change the budget of a live campaign. Permission level 1, manual runs before we schedule the weekly cadence."
+  },
+  {
+    role: "HR / Recruiting",
+    title: "Candidate Pipeline Follow-Up Loop",
+    trigger: "/loop 24h",
+    action: "Check the pipeline for stalled stages, draft suggested follow-up notes and reminders",
+    output: "outputs/pipeline-followup.md",
+    verify: "Never contacts candidates directly — drafts only, a human sends",
+    perm: "Level 1–2",
+    prompt: "Set up a candidate pipeline follow-up loop. Scaffold TASK.md, PROGRESS.md, LOOP_INSTRUCTIONS.md and outputs/. On each run: check the candidate pipeline for stages that have stalled past their expected window, and draft suggested follow-up notes and reminders in outputs/pipeline-followup.md. Update PROGRESS.md and run the verification checklist. Never contact a candidate, send an email, or change a candidate's stage or status — drafts only, a human reviews and sends. Treat candidate details as sensitive and keep them inside the workspace. Permission level 1-2, manual runs first."
+  },
+  {
+    role: "Finance / Ops",
+    title: "Expense & Invoice Anomaly Review Loop",
+    trigger: "/loop 24h, or on a new invoice batch",
+    action: "Scan expenses/invoices for duplicates, out-of-policy amounts, or missing approvals",
+    output: "outputs/finance-review.md — anomalies flagged for human review",
+    verify: "Never approves, pays, or modifies a financial record — strictly read-and-flag",
+    perm: "Level 1",
+    prompt: "Set up an expense and invoice anomaly review loop. Scaffold TASK.md, PROGRESS.md, LOOP_INSTRUCTIONS.md and outputs/. On each run: scan the latest expense and invoice records for duplicates, out-of-policy amounts, and missing approvals, using explicit policy thresholds rather than judgement calls, and flag each anomaly in outputs/finance-review.md for human review. Update PROGRESS.md and run the verification checklist. Never approve, pay, categorize, or modify a financial record — strictly read-and-flag. Permission level 1, manual runs first."
+  },
+  {
+    role: "Legal / Compliance",
+    title: "Contract Clause Watch Loop",
+    trigger: "New contract upload, or a weekly batch",
+    action: "Scan contracts for non-standard clauses (indemnity, liability caps, termination) against an approved clause library",
+    output: "outputs/clause-review.md — deviations flagged for a human lawyer",
+    verify: "Never approves, signs, or sends a contract — strictly read-and-flag",
+    perm: "Level 1",
+    prompt: "Set up a contract clause watch loop. Scaffold TASK.md, PROGRESS.md, LOOP_INSTRUCTIONS.md and outputs/. On each run: scan contracts that are new since the last run for non-standard clauses — indemnity, liability caps, termination terms — comparing them against the approved clause library I provide, and flag every deviation with the exact clause text and location in outputs/clause-review.md for a human lawyer to review. Update PROGRESS.md and run the verification checklist. Never approve, sign, send, or edit a contract, and never give a legal conclusion — strictly read-and-flag. Permission level 1, manual runs first."
+  },
+  {
+    role: "Sales",
+    title: "Pipeline Hygiene & Follow-Up Loop",
+    trigger: "/loop 24h",
+    action: "Review the CRM export for stalled deals, missing next steps, overdue follow-ups; draft outreach notes",
+    output: "outputs/pipeline-hygiene.md",
+    verify: "Never emails prospects or edits deal stage/value — drafts only, the rep sends",
+    perm: "Level 1–2",
+    prompt: "Set up a daily pipeline hygiene loop. Scaffold TASK.md, PROGRESS.md, LOOP_INSTRUCTIONS.md and outputs/. On each run: review the CRM export in this workspace for stalled deals, missing next steps, and overdue follow-ups, and draft suggested outreach notes in outputs/pipeline-hygiene.md. Update PROGRESS.md and run the verification checklist. Never email a prospect, log an activity, or edit a deal's stage, value, or close date — drafts only, the rep reviews and sends. Permission level 1-2, manual runs first."
+  },
+  {
+    role: "Education",
+    title: "Weekly Student Progress Loop",
+    trigger: "/loop 7d",
+    action: "Review assignment/quiz results, identify students falling behind or excelling, draft a short progress note per student",
+    output: "outputs/progress-notes.md",
+    verify: "Never changes grades or contacts guardians — drafts for the teacher to review and send",
+    perm: "Level 1",
+    prompt: "Set up a weekly student progress loop. Scaffold TASK.md, PROGRESS.md, LOOP_INSTRUCTIONS.md and outputs/. On each run: review the assignment and quiz results in this workspace, identify students who are falling behind or excelling relative to the previous run, and draft a short, factual progress note per student in outputs/progress-notes.md. Update PROGRESS.md and run the verification checklist. Never change a grade, edit the gradebook, or contact a student or guardian — drafts for me to review and send. Treat all student data as sensitive and keep it inside this workspace. Permission level 1, manual runs first."
+  }
+];
+
+const grid = document.getElementById("grid");
+
+LOOPS.forEach((l, i) => {
+  const card = document.createElement("article");
+  card.className = "card";
+  card.innerHTML = `
+    <div class="card-top">
+      <div>
+        <div class="role">${i + 1} · ${l.role}</div>
+        <div class="title">${l.title}</div>
+      </div>
+      <div class="perm">${l.perm}</div>
+    </div>
+    <dl>
+      <dt>Trigger</dt><dd>${l.trigger}</dd>
+      <dt>Action</dt><dd>${l.action}</dd>
+      <dt>Output</dt><dd>${l.output}</dd>
+      <dt>Verify</dt><dd class="verify">${l.verify}</dd>
+    </dl>
+    <div class="prompt-wrap">
+      <div class="prompt-head">
+        <span>Quick-start prompt</span>
+        <button class="copy" type="button">Copy</button>
+      </div>
+      <pre></pre>
+    </div>`;
+  card.querySelector("pre").textContent = l.prompt;
+  const btn = card.querySelector("button.copy");
+  btn.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(l.prompt);
+    } catch (e) {
+      const r = document.createRange();
+      r.selectNodeContents(card.querySelector("pre"));
+      const s = window.getSelection();
+      s.removeAllRanges(); s.addRange(r);
+      document.execCommand("copy");
+      s.removeAllRanges();
+    }
+    btn.textContent = "Copied";
+    btn.classList.add("done");
+    setTimeout(() => { btn.textContent = "Copy"; btn.classList.remove("done"); }, 1600);
+  });
+  grid.appendChild(card);
+});
+</script>
+</body>
+</html>
