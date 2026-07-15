@@ -92,7 +92,7 @@
           A skill that helps Claude turn a recurring manual check into a safe, repeatable
           <strong>loop</strong> — it reads the memory of prior runs, takes one bounded action, verifies its own
           output, <strong>carries what it learned forward</strong>, and knows when to stop, retry, or ask a human.
-          Every run compiles a cheaper, smarter next one. Ships with 13 role-based patterns, every one
+          Each run sets up a cheaper, sharper next one. Ships with 13 role-based patterns, every one
           <strong>draft-first</strong> by default.
         </p>
         <div class="dl-row">
@@ -152,7 +152,7 @@
     <!-- FOUR PARTS -->
     <section class="section section-alt">
       <div class="wrap">
-        <div class="section-head reveal"><span class="section-num">02</span><h2>The four parts of a good loop</h2></div>
+        <div class="section-head reveal"><span class="section-num">02</span><h2>The four building blocks of a durable loop</h2></div>
         <p class="lead-two reveal">The prompt itself is maybe 5% of the work. The rest is the structure that makes it safe to leave the loop running. Most people build parts 1 and 4 and skip 2 and 3 — the two that actually let it run unattended.</p>
         <div class="parts reveal">
           <div class="part">
@@ -184,7 +184,7 @@
     <!-- THREE ROLES -->
     <section class="section">
       <div class="wrap">
-        <div class="section-head reveal"><span class="section-num">03</span><h2>Serious loops split into three roles</h2></div>
+        <div class="section-head reveal"><span class="section-num">03</span><h2>Divide the work across three roles</h2></div>
         <p class="lead-two reveal">A simple loop is one agent doing the whole job. Once it starts shipping real work to real people it splits: one picks the work, one carries it out in an isolated lane, one proves it. You sign off on <em>proof, not raw diffs</em>.</p>
         <div class="roles reveal">
           <div class="role-card">
@@ -221,7 +221,7 @@
           </div>
           <div class="box">
             <div class="mf">The evolve pass</div>
-            <h3>Every run compiles a cheaper next run</h3>
+            <h3>Each run sets up a cheaper next one</h3>
             <p>A good loop gets stronger from a bad run instead of breaking. Every N runs, an evolve pass reviews the recent runs — what wasted compute, which limit is too loose, which mistake keeps recurring — and rewrites the loop, not the product: tighter contract, lighter trigger, mechanical steps folded into scripts.</p>
             <p>It <b>starts fully agent-driven</b>, learns the pattern, then the now-certain part <b>hardens into a cheap script</b> — the model only steps back in when a guard condition fires. It's verified like any run, and may only <b>tighten</b> scope; loosening always needs a human.</p>
           </div>
