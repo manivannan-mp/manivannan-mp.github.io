@@ -87,6 +87,10 @@ static export and publishes it to GitHub Pages.
 Add `draft: true` to keep a post reachable by URL but off the index (that is how
 `content/posts/example-post.mdx`, the template, behaves).
 
+For full article patterns, reusable MDX components, CTA/TOC/table guidance, and
+the required rule to update learnings after every blog-writing task, see
+`docs/blog-writing-guide.md`.
+
 ## Editing your details
 
 The bio and project descriptions live in `app/page.tsx`. Search for `✏️`
