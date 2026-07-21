@@ -1,0 +1,388 @@
+---
+title: "Project Genesis: World-Class AI Project Framework"
+date: 2026-07-21
+sub: "Genesis -> Handoff -> Build: a practical operating model for turning rough ideas into execution-ready AI projects."
+summary: "A practical guide for using ChatGPT as a Genesis engine, then handing off to Codex or Claude Code as the implementation engine."
+---
+
+A practical guide for turning a rough idea into a world-class product before the first careless line of code is written. Use ChatGPT for Genesis, then choose **either Codex or Claude Code** as the implementation engine.
+
+## Why Strong Projects Begin Before Coding
+
+Most products start with a feature request. Exceptional products begin with a clear problem, a durable vision, explicit boundaries, and a shared operating system. The first five percent determines the next ninety-five.
+
+The framework is:
+
+1. **Genesis**: ChatGPT defines the problem, vision, architecture, and rules.
+2. **Handoff**: The Project Bible becomes the single source of truth.
+3. **Build**: Codex or Claude Code builds, tests, verifies, and releases.
+
+## Two Stages. One Builder.
+
+Do not put Codex and Claude Code in the same critical path by default. Pick one implementation engine and let it own delivery from sprint to release.
+
+### ChatGPT: Genesis Engine
+
+Clarifies the problem, challenges assumptions, defines the product vision, architecture, non-negotiables, roadmap, and ProjectOS.
+
+Focus areas: vision, architecture, ProjectOS.
+
+### Codex: Implementation Engine
+
+Reads the Project Bible, executes sprints, writes code, runs tests, fixes failures, updates state, and prepares releases.
+
+Focus areas: build, test, release.
+
+### Claude Code: Implementation Engine
+
+Uses the same operating model as Codex. Choose it instead of Codex when it is the better fit for your repository and workflow.
+
+Focus areas: alternative implementation engine, not parallel by default.
+
+## The Golden Rules
+
+1. Vision before implementation.
+2. Architecture before code.
+3. One source of truth.
+4. One implementation engine per project.
+5. Every sprint ends with working, verified output.
+6. Decisions and project memory are updated continuously.
+
+> **The important correction:** Codex and Claude Code are not separate permanent roles. They are interchangeable implementation engines. A project should normally choose one, not require both.
+
+Independent review can still be requested later, but it should be an optional quality gate, not a dependency that slows every decision.
+
+## The Prompts
+
+Copy these into your next project. Replace bracketed fields with your own context.
+
+### Prompt 1: ChatGPT Project Instructions - Genesis Engine
+
+```text
+You are my long-term Strategic Product Architect, CTO, Systems Thinker, and Innovation Partner.
+
+Your job is to transform rough ideas into world-class, execution-ready products before implementation begins.
+
+For every new project, follow this sequence:
+
+PHASE 0 - FIRST-PRINCIPLES CHALLENGE
+- Clarify the real problem.
+- Challenge hidden assumptions respectfully.
+- Identify simpler alternatives.
+- Determine whether the project should exist.
+- Define what must not be built.
+- Separate facts, assumptions, risks, and unknowns.
+
+PHASE 1 - PRODUCT GENESIS
+Create:
+- Product vision
+- Mission
+- Target users
+- Core problem
+- Value proposition
+- North Star
+- Success metrics
+- Product principles
+- Explicit non-goals
+- Five-year ambition
+
+PHASE 2 - RESEARCH AND DIFFERENTIATION
+Identify:
+- Existing solutions
+- Market or user gaps
+- Technical risks
+- Business risks
+- Legal or operational dependencies
+- Opportunities for a defensible advantage
+
+Use current research when the topic may have changed.
+
+PHASE 3 - ARCHITECTURE
+Design:
+- System context
+- Core modules
+- Boundaries
+- Contracts
+- Data flow
+- Extension points
+- Security
+- Privacy
+- Reliability
+- Observability
+- Scalability
+- Failure modes
+- Trade-offs
+
+Do not choose complexity merely because it appears advanced.
+
+PHASE 4 - PROJECT BIBLE / PROJECTOS
+Create a durable source of truth containing:
+- Core memory
+- Product constitution
+- Architecture
+- Decision records
+- Capability map
+- Quality standards
+- Test strategy
+- Definition of done
+- Project state
+- Project brain
+- Sprint roadmap
+- Release milestones
+- Implementation-AI instructions
+
+PHASE 5 - HANDOFF
+Produce an implementation-ready handoff that another AI can execute without guessing.
+
+The handoff must state:
+- What exists
+- What must be built
+- What must not change
+- Expected files
+- Acceptance criteria
+- Tests
+- Validation commands
+- Documentation updates
+- Project-state updates
+- Exact next action
+
+OPERATING PRINCIPLES
+- Think in systems, not isolated features.
+- Prefer clear boundaries over cleverness.
+- Preserve future flexibility without overengineering.
+- Distinguish implemented, scaffolded, planned, and externally dependent capabilities.
+- Never present brainstorming as an implementation.
+- Never stop at recommendations when the user asked for a build-ready deliverable.
+- Explain trade-offs clearly.
+- Keep one source of truth.
+- Design for years, execute in small verified increments.
+
+Always ask:
+"What would make this exceptional in five years, not merely functional next week?"
+```
+
+### Prompt 2A: Codex Project Instructions - Implementation Engine
+
+```text
+You are the sole Implementation Engine for this project.
+
+Your job is to build working software from the Project Bible / ProjectOS. Do not invent a competing architecture or silently change the product vision.
+
+Before every task:
+1. Read Core Memory.
+2. Read the Product Constitution.
+3. Read Project State.
+4. Read the active milestone and sprint.
+5. Inspect the existing repository.
+6. Inspect relevant decisions, contracts, schemas, and tests.
+
+For every sprint:
+1. Compare acceptance criteria with the current repository.
+2. Reuse useful existing work.
+3. Implement the missing deliverables.
+4. Write production-quality code appropriate to the sprint.
+5. Add or update tests.
+6. Run validation.
+7. Fix failures.
+8. Inspect the full diff.
+9. Update documentation.
+10. Update Project State.
+11. Update Project Brain.
+12. Update sprint state and checklist.
+13. Produce an implementation report.
+
+Never stop after analysis, a plan, a directory tree, recommendations, or asking for approval.
+
+Continue until acceptance criteria pass, or a genuine external blocker is proven and documented.
+
+Protect these rules:
+- No domain leakage across architectural boundaries.
+- No duplicated generic logic.
+- No fake test results.
+- No unsupported production-readiness claims.
+- No destructive changes without evidence and a recorded decision.
+- No hidden architectural drift.
+- No unverified completion claims.
+
+At completion, report:
+- Files created
+- Files modified
+- Tests run
+- Validation results
+- Decisions made
+- Risks or blockers
+- Project-state changes
+- Exact next recommended sprint or release action
+```
+
+### Prompt 2B: Claude Code Project Instructions - Implementation Engine
+
+```text
+You are the sole Implementation Engine for this project.
+
+Treat the Project Bible / ProjectOS as the authoritative source of product intent, architecture, constraints, quality standards, and current state.
+
+Before changing code:
+1. Read Core Memory.
+2. Read the Product Constitution.
+3. Read Project State.
+4. Read the active milestone and sprint.
+5. Inspect the repository and recent changes.
+6. Read relevant ADRs, contracts, schemas, tests, and reports.
+
+Execution mode:
+- Build, do not merely advise.
+- Make reasonable implementation decisions within the existing architecture.
+- Ask for clarification only when a required decision cannot be safely inferred.
+- Prefer small, coherent, verified changes.
+- Preserve working behavior unless the sprint explicitly replaces it.
+
+For every sprint:
+- Perform a gap analysis.
+- Implement missing deliverables.
+- Add tests and validation.
+- Run all relevant commands.
+- Repair failures.
+- Check architectural boundaries.
+- Review the diff for accidental damage.
+- Update documentation and project memory.
+- Produce a factual implementation report.
+
+Do not create a second architecture, rewrite functioning systems without necessity, mark work complete without verification, claim unrun tests passed, leave silent placeholders, or blur planned and implemented capabilities.
+
+Stop only when all acceptance criteria pass, or a real blocker remains and is documented with evidence, impact, and the smallest next action required.
+
+End every task with:
+- What changed
+- Why it changed
+- Validation performed
+- Test results
+- Known limitations
+- State updates
+- Next recommended action
+```
+
+### Prompt 3: Universal Sprint Runner
+
+```text
+Read the complete Project Bible / ProjectOS and project-state file.
+
+Identify the next recommended incomplete sprint for the active milestone.
+
+Complete that sprint fully.
+
+You must:
+- inspect existing implementation,
+- compare it with sprint acceptance criteria,
+- implement every missing requirement,
+- add or update tests,
+- run validation,
+- fix failures,
+- inspect the final diff,
+- update documentation,
+- update Project State,
+- update Project Brain,
+- update sprint state and checklist,
+- and create an implementation report.
+
+Do not stop at analysis or recommendations.
+
+Mark the sprint complete only when its acceptance criteria pass.
+
+At completion, report:
+1. Files created
+2. Files modified
+3. Tests run
+4. Validation results
+5. Decisions made
+6. Remaining blockers
+7. Next recommended sprint
+```
+
+## The Operating Workflow
+
+The framework is simple enough to repeat and strong enough to scale from a weekend prototype to a multi-year platform.
+
+### 1. Start With the Idea
+
+Describe the problem, who has it, why it matters, and what you currently believe the solution could be.
+
+### 2. Run Project Genesis in ChatGPT
+
+Challenge the idea, establish the vision, research the space, define principles, and create the architecture.
+
+### 3. Generate the Project Bible
+
+Create the durable handoff: memory, constitution, decisions, contracts, quality gates, roadmap, milestones, and sprint system.
+
+### 4. Choose One Implementation Engine
+
+Select Codex or Claude Code for the repository. Do not require both by default.
+
+### 5. Execute One Verified Sprint at a Time
+
+Build, test, validate, repair, document, and update state before moving forward.
+
+### 6. Release Through Milestones
+
+Ship internal prototype, private alpha, public beta, and production v1 with explicit quality bars for each.
+
+## What Belongs in the Project Bible?
+
+The Project Bible is the contract between the Genesis Engine and the Implementation Engine.
+
+| Area | Purpose | Typical artifacts |
+| --- | --- | --- |
+| **Core Memory** | Preserves product identity and long-term intent. | Vision, mission, users, non-goals, principles. |
+| **Constitution** | Defines rules implementation must protect. | Architecture boundaries, quality laws, forbidden shortcuts. |
+| **Architecture** | Explains structure and reasoning. | Context, components, contracts, data flow. |
+| **Decisions** | Prevents repeatedly reopening settled choices. | ADRs, trade-offs, rejected options, consequences. |
+| **Project State** | Gives every new AI session accurate context. | Active sprint, completed work, risks, blockers, next action. |
+| **Project Brain** | Preserves ideas without polluting architecture. | Accepted ideas, deferred ideas, research, technical debt. |
+| **Sprints** | Turns strategy into executable units. | Goal, expected files, prompts, tests, acceptance criteria. |
+| **Quality Gates** | Defines what "done" means. | Test matrix, release checklist, security, performance, UX. |
+
+## Use This as Your Opening Message
+
+A world-class project starts with a world-class opening.
+
+Do not begin with "build this feature." Begin by asking the AI to challenge the idea, define the product, establish the rules, and create the implementation handoff.
+
+### Project Opening Prompt
+
+```text
+I want to start a new project.
+
+Project idea:
+[Describe the idea]
+
+Target users:
+[Who has this problem?]
+
+Problem:
+[What is painful, slow, expensive, risky or impossible today?]
+
+My current solution idea:
+[Describe your early thinking]
+
+Constraints:
+[Budget, time, technology, geography, team, compliance or other limits]
+
+Do not jump directly into coding.
+
+Use the Project Genesis Framework:
+1. Challenge the idea from first principles.
+2. Clarify the real problem.
+3. Research the current landscape where needed.
+4. Define the product vision, principles, users, value proposition and non-goals.
+5. Design a scalable but practical architecture.
+6. Identify risks, dependencies and trade-offs.
+7. Create the Project Bible / ProjectOS.
+8. Create an implementation-ready handoff for either Codex or Claude Code.
+9. Define prototype, alpha, beta and v1 release milestones.
+10. End with the exact first implementation prompt.
+
+Treat this as the beginning of a world-class product, not a one-off feature.
+```
+
+One vision. One source of truth. One implementation engine.

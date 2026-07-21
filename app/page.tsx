@@ -300,29 +300,29 @@ export default function Home() {
               <h2>Writing</h2>
             </div>
             <p className="section-intro reveal">
-              I write about AI, SaaS engineering, and building products solo. New
-              articles will land here and on LinkedIn.
+              I write about AI, SaaS engineering, and building products solo.
+              The latest piece is a practical framework for taking a rough
+              product idea through Genesis, handoff, and implementation.
             </p>
             <div className="writing-soon reveal">
               <p>
-                <strong>Writing is on the way.</strong> The first pieces — on
-                agent loops, AI product engineering, and shipping solo — are in
-                draft. In the meantime, I share shorter notes on{' '}
-                <a
+                <strong>New article:</strong>{' '}
+                <Link
                   className="link"
-                  href="https://www.linkedin.com/in/mani-minilabz/"
-                  target="_blank"
-                  rel="noopener"
+                  href="/blog/project-genesis-world-class-ai-project-framework/"
                 >
-                  LinkedIn
-                </a>
-                .
+                  Project Genesis: World-Class AI Project Framework
+                </Link>{' '}
+                explains how to use ChatGPT as the Genesis engine, then hand off
+                to Codex or Claude Code as the implementation engine.{' '}
+                <Link
+                  className="link"
+                  href="/blog/project-genesis-world-class-ai-project-framework/"
+                >
+                  Read the full blog write-up →
+                </Link>
               </p>
             </div>
-            {/*
-              ✏️ To publish an article: add a post to content/posts/ and it will
-              surface automatically on the /blog/ index. See the blog for details.
-            */}
           </div>
         </section>
 
