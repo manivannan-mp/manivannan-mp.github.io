@@ -1,45 +1,81 @@
 ---
-title: "Project Genesis: World-Class AI Project Framework"
+title: "Project Genesis: A Strong AI Project Framework"
 date: 2026-07-21
 sub: "Genesis -> Handoff -> Build: a practical operating model for turning rough ideas into execution-ready AI projects."
 summary: "A practical guide for using ChatGPT as a Genesis engine, then handing off to Codex or Claude Code as the implementation engine."
 ---
 
-A practical guide for turning a rough idea into a world-class product before the first careless line of code is written. Use ChatGPT for Genesis, then choose **either Codex or Claude Code** as the implementation engine.
+A practical guide for turning a rough idea into a strong, execution-ready product before the first careless line of code is written. Use ChatGPT for Genesis, then choose **either Codex or Claude Code** as the implementation engine.
+
+<div className="post-actions">
+  <a className="btn btn-primary" href="#prompts">Copy the prompts</a>
+  <a className="btn btn-ghost" href="#framework">Understand the system</a>
+</div>
+
+<nav className="post-toc" aria-label="Article sections">
+  <a href="#framework">Framework</a>
+  <a href="#roles">Roles</a>
+  <a href="#prompts">Prompts</a>
+  <a href="#workflow">Workflow</a>
+  <a href="#project-bible">Project Bible</a>
+</nav>
+
+<section id="framework">
 
 ## Why Strong Projects Begin Before Coding
 
 Most products start with a feature request. Exceptional products begin with a clear problem, a durable vision, explicit boundaries, and a shared operating system. The first five percent determines the next ninety-five.
 
-The framework is:
+<div className="post-stage-grid">
+  <article className="post-stage-card">
+    <p className="post-kicker">Step 1</p>
+    <h3>Genesis</h3>
+    <p>ChatGPT defines the problem, vision, architecture, and rules.</p>
+  </article>
+  <article className="post-stage-card">
+    <p className="post-kicker">Step 2</p>
+    <h3>Handoff</h3>
+    <p>The Project Bible becomes the single source of truth.</p>
+  </article>
+  <article className="post-stage-card">
+    <p className="post-kicker">Step 3</p>
+    <h3>Build</h3>
+    <p>Codex or Claude Code builds, tests, verifies, and releases.</p>
+  </article>
+</div>
 
-1. **Genesis**: ChatGPT defines the problem, vision, architecture, and rules.
-2. **Handoff**: The Project Bible becomes the single source of truth.
-3. **Build**: Codex or Claude Code builds, tests, verifies, and releases.
+</section>
+
+<section id="roles">
 
 ## Two Stages. One Builder.
 
 Do not put Codex and Claude Code in the same critical path by default. Pick one implementation engine and let it own delivery from sprint to release.
 
-### ChatGPT: Genesis Engine
+<div className="post-stage-grid">
+  <article className="post-stage-card">
+    <p className="post-kicker">Stage 1</p>
+    <h3>ChatGPT: Genesis Engine</h3>
+    <p>Clarifies the problem, challenges assumptions, defines the product vision, architecture, non-negotiables, roadmap, and ProjectOS.</p>
+    <p><strong>Focus:</strong> Vision, architecture, ProjectOS.</p>
+  </article>
+  <article className="post-stage-card">
+    <p className="post-kicker">Stage 2A</p>
+    <h3>Codex: Implementation Engine</h3>
+    <p>Reads the Project Bible, executes sprints, writes code, runs tests, fixes failures, updates state, and prepares releases.</p>
+    <p><strong>Focus:</strong> Build, test, release.</p>
+  </article>
+  <article className="post-stage-card">
+    <p className="post-kicker">Stage 2B</p>
+    <h3>Claude Code: Implementation Engine</h3>
+    <p>Uses the same operating model as Codex. Choose it instead of Codex when it is the better fit for your repository and workflow.</p>
+    <p><strong>Focus:</strong> Alternative implementation engine, not parallel by default.</p>
+  </article>
+</div>
 
-Clarifies the problem, challenges assumptions, defines the product vision, architecture, non-negotiables, roadmap, and ProjectOS.
+<div className="post-section-card">
 
-Focus areas: vision, architecture, ProjectOS.
-
-### Codex: Implementation Engine
-
-Reads the Project Bible, executes sprints, writes code, runs tests, fixes failures, updates state, and prepares releases.
-
-Focus areas: build, test, release.
-
-### Claude Code: Implementation Engine
-
-Uses the same operating model as Codex. Choose it instead of Codex when it is the better fit for your repository and workflow.
-
-Focus areas: alternative implementation engine, not parallel by default.
-
-## The Golden Rules
+### The Golden Rules
 
 1. Vision before implementation.
 2. Architecture before code.
@@ -48,20 +84,26 @@ Focus areas: alternative implementation engine, not parallel by default.
 5. Every sprint ends with working, verified output.
 6. Decisions and project memory are updated continuously.
 
+</div>
+
 > **The important correction:** Codex and Claude Code are not separate permanent roles. They are interchangeable implementation engines. A project should normally choose one, not require both.
 
 Independent review can still be requested later, but it should be an optional quality gate, not a dependency that slows every decision.
+
+</section>
+
+<section id="prompts">
 
 ## The Prompts
 
 Copy these into your next project. Replace bracketed fields with your own context.
 
-### Prompt 1: ChatGPT Project Instructions - Genesis Engine
+<PromptBlock
+  kicker="Prompt 1"
+  title="ChatGPT Project Instructions - Genesis Engine"
+  text={`You are my long-term Strategic Product Architect, CTO, Systems Thinker, and Innovation Partner.
 
-```text
-You are my long-term Strategic Product Architect, CTO, Systems Thinker, and Innovation Partner.
-
-Your job is to transform rough ideas into world-class, execution-ready products before implementation begins.
+Your job is to transform rough ideas into exceptional, execution-ready products before implementation begins.
 
 For every new project, follow this sequence:
 
@@ -158,13 +200,13 @@ OPERATING PRINCIPLES
 - Design for years, execute in small verified increments.
 
 Always ask:
-"What would make this exceptional in five years, not merely functional next week?"
-```
+"What would make this exceptional in five years, not merely functional next week?"`}
+/>
 
-### Prompt 2A: Codex Project Instructions - Implementation Engine
-
-```text
-You are the sole Implementation Engine for this project.
+<PromptBlock
+  kicker="Prompt 2A"
+  title="Codex Project Instructions - Implementation Engine"
+  text={`You are the sole Implementation Engine for this project.
 
 Your job is to build working software from the Project Bible / ProjectOS. Do not invent a competing architecture or silently change the product vision.
 
@@ -212,13 +254,13 @@ At completion, report:
 - Decisions made
 - Risks or blockers
 - Project-state changes
-- Exact next recommended sprint or release action
-```
+- Exact next recommended sprint or release action`}
+/>
 
-### Prompt 2B: Claude Code Project Instructions - Implementation Engine
-
-```text
-You are the sole Implementation Engine for this project.
+<PromptBlock
+  kicker="Prompt 2B"
+  title="Claude Code Project Instructions - Implementation Engine"
+  text={`You are the sole Implementation Engine for this project.
 
 Treat the Project Bible / ProjectOS as the authoritative source of product intent, architecture, constraints, quality standards, and current state.
 
@@ -259,13 +301,13 @@ End every task with:
 - Test results
 - Known limitations
 - State updates
-- Next recommended action
-```
+- Next recommended action`}
+/>
 
-### Prompt 3: Universal Sprint Runner
-
-```text
-Read the complete Project Bible / ProjectOS and project-state file.
+<PromptBlock
+  kicker="Prompt 3"
+  title="Universal Sprint Runner"
+  text={`Read the complete Project Bible / ProjectOS and project-state file.
 
 Identify the next recommended incomplete sprint for the active milestone.
 
@@ -296,12 +338,18 @@ At completion, report:
 4. Validation results
 5. Decisions made
 6. Remaining blockers
-7. Next recommended sprint
-```
+7. Next recommended sprint`}
+/>
+
+</section>
+
+<section id="workflow">
 
 ## The Operating Workflow
 
 The framework is simple enough to repeat and strong enough to scale from a weekend prototype to a multi-year platform.
+
+<div className="post-section-card">
 
 ### 1. Start With the Idea
 
@@ -327,6 +375,12 @@ Build, test, validate, repair, document, and update state before moving forward.
 
 Ship internal prototype, private alpha, public beta, and production v1 with explicit quality bars for each.
 
+</div>
+
+</section>
+
+<section id="project-bible">
+
 ## What Belongs in the Project Bible?
 
 The Project Bible is the contract between the Genesis Engine and the Implementation Engine.
@@ -342,16 +396,20 @@ The Project Bible is the contract between the Genesis Engine and the Implementat
 | **Sprints** | Turns strategy into executable units. | Goal, expected files, prompts, tests, acceptance criteria. |
 | **Quality Gates** | Defines what "done" means. | Test matrix, release checklist, security, performance, UX. |
 
+</section>
+
+<section id="opening-message">
+
 ## Use This as Your Opening Message
 
-A world-class project starts with a world-class opening.
+A strong project starts with a strong opening.
 
 Do not begin with "build this feature." Begin by asking the AI to challenge the idea, define the product, establish the rules, and create the implementation handoff.
 
-### Project Opening Prompt
-
-```text
-I want to start a new project.
+<PromptBlock
+  kicker="Opening prompt"
+  title="Project Opening Prompt"
+  text={`I want to start a new project.
 
 Project idea:
 [Describe the idea]
@@ -382,7 +440,9 @@ Use the Project Genesis Framework:
 9. Define prototype, alpha, beta and v1 release milestones.
 10. End with the exact first implementation prompt.
 
-Treat this as the beginning of a world-class product, not a one-off feature.
-```
+Treat this as the beginning of an exceptional product, not a one-off feature.`}
+/>
+
+</section>
 
 One vision. One source of truth. One implementation engine.

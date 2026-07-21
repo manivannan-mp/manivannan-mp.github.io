@@ -309,15 +309,15 @@ export default function Home() {
                 <strong>New article:</strong>{' '}
                 <Link
                   className="link"
-                  href="/blog/project-genesis-world-class-ai-project-framework/"
+                  href="/blog/project-genesis-strong-ai-project-framework/"
                 >
-                  Project Genesis: World-Class AI Project Framework
+                  Project Genesis: A Strong AI Project Framework
                 </Link>{' '}
                 explains how to use ChatGPT as the Genesis engine, then hand off
                 to Codex or Claude Code as the implementation engine.{' '}
                 <Link
                   className="link"
-                  href="/blog/project-genesis-world-class-ai-project-framework/"
+                  href="/blog/project-genesis-strong-ai-project-framework/"
                 >
                   Read the full blog write-up →
                 </Link>

@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { compileMDX } from 'next-mdx-remote/rsc';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
+import PromptBlock from '@/components/PromptBlock';
 import { getAllSlugs, getPostBySlug, formatDate } from '@/lib/posts';
 import '../post.css';
 
@@ -46,6 +47,9 @@ export default async function PostPage({
 
   const { content } = await compileMDX({
     source: post.content,
+    components: {
+      PromptBlock,
+    },
     options: { parseFrontmatter: false },
   });
 
