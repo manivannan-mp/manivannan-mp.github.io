@@ -18,6 +18,7 @@
 .post-sub { color: var(--muted); font-size: 1rem; margin: 0; }
 
 .post-body { font-size: 1.06rem; color: var(--text); }
+.post-body section[id] { scroll-margin-top: 210px; }
 .post-body h2 { font-size: 1.4rem; margin: 40px 0 14px; letter-spacing: -0.01em; }
 .post-body h3 { font-size: 1.15rem; margin: 30px 0 10px; }
 .post-body p { margin: 0 0 20px; }
@@ -169,6 +170,7 @@
   .post-toc, .post-stage-grid { grid-template-columns: 1fr; }
   .prompt-head { align-items: flex-start; flex-direction: column; }
   .post-header { top: 64px; }
+  .post-body section[id] { scroll-margin-top: 230px; }
 }
 
 .post-footer { margin-top: 44px; padding-top: 26px; border-top: 1px solid var(--border); color: var(--muted); }
