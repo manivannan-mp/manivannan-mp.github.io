@@ -8,8 +8,8 @@ summary: "A practical guide for using ChatGPT as a Genesis engine, then handing 
 A practical guide for turning a rough idea into a strong, execution-ready product before the first careless line of code is written. Use ChatGPT for Genesis, then choose **either Codex or Claude Code** as the implementation engine.
 
 <div className="post-actions">
-  <a className="btn btn-primary" href="#prompts">Copy the prompts</a>
-  <a className="btn btn-ghost" href="#framework">Understand the system</a>
+  <a className="post-cta post-cta-primary" href="#prompts">Copy the prompts</a>
+  <a className="post-cta post-cta-secondary" href="#framework">Understand the system</a>
 </div>
 
 <nav className="post-toc" aria-label="Article sections">
@@ -385,16 +385,59 @@ Ship internal prototype, private alpha, public beta, and production v1 with expl
 
 The Project Bible is the contract between the Genesis Engine and the Implementation Engine.
 
-| Area | Purpose | Typical artifacts |
-| --- | --- | --- |
-| **Core Memory** | Preserves product identity and long-term intent. | Vision, mission, users, non-goals, principles. |
-| **Constitution** | Defines rules implementation must protect. | Architecture boundaries, quality laws, forbidden shortcuts. |
-| **Architecture** | Explains structure and reasoning. | Context, components, contracts, data flow. |
-| **Decisions** | Prevents repeatedly reopening settled choices. | ADRs, trade-offs, rejected options, consequences. |
-| **Project State** | Gives every new AI session accurate context. | Active sprint, completed work, risks, blockers, next action. |
-| **Project Brain** | Preserves ideas without polluting architecture. | Accepted ideas, deferred ideas, research, technical debt. |
-| **Sprints** | Turns strategy into executable units. | Goal, expected files, prompts, tests, acceptance criteria. |
-| **Quality Gates** | Defines what "done" means. | Test matrix, release checklist, security, performance, UX. |
+<div className="project-bible-table">
+  <table>
+    <thead>
+      <tr>
+        <th>Area</th>
+        <th>Purpose</th>
+        <th>Typical artifacts</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Core Memory</strong></td>
+        <td>Preserves product identity and long-term intent.</td>
+        <td>Vision, mission, users, non-goals, principles.</td>
+      </tr>
+      <tr>
+        <td><strong>Constitution</strong></td>
+        <td>Defines rules implementation must protect.</td>
+        <td>Architecture boundaries, quality laws, forbidden shortcuts.</td>
+      </tr>
+      <tr>
+        <td><strong>Architecture</strong></td>
+        <td>Explains structure and reasoning.</td>
+        <td>Context, components, contracts, data flow.</td>
+      </tr>
+      <tr>
+        <td><strong>Decisions</strong></td>
+        <td>Prevents repeatedly reopening settled choices.</td>
+        <td>ADRs, trade-offs, rejected options, consequences.</td>
+      </tr>
+      <tr>
+        <td><strong>Project State</strong></td>
+        <td>Gives every new AI session accurate context.</td>
+        <td>Active sprint, completed work, risks, blockers, next action.</td>
+      </tr>
+      <tr>
+        <td><strong>Project Brain</strong></td>
+        <td>Preserves ideas without polluting architecture.</td>
+        <td>Accepted ideas, deferred ideas, research, technical debt.</td>
+      </tr>
+      <tr>
+        <td><strong>Sprints</strong></td>
+        <td>Turns strategy into executable units.</td>
+        <td>Goal, expected files, prompts, tests, acceptance criteria.</td>
+      </tr>
+      <tr>
+        <td><strong>Quality Gates</strong></td>
+        <td>Defines what "done" means.</td>
+        <td>Test matrix, release checklist, security, performance, UX.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 </section>
 
